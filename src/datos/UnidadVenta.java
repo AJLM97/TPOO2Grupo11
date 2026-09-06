@@ -16,14 +16,12 @@ public abstract class UnidadVenta {
 	
 	public UnidadVenta() {}
 
-	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable,
-			Festival festival) {
+	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable) {
 		super();
 		this.nombreComercial = nombreComercial;
 		this.codigo = codigo;
 		this.superficie = superficie;
 		this.responsable = responsable;
-		this.festival = festival;
 	}
 
 	public long getIdUnidadVenta() {
@@ -95,10 +93,13 @@ public abstract class UnidadVenta {
 		return Objects.hash(idUnidadVenta);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		UnidadVenta other = (UnidadVenta) obj;
-		return idUnidadVenta == other.idUnidadVenta;
+	
+	public boolean equals(UnidadVenta u) {
+		boolean igual = false;
+		if(u != null && this.codigo.equals(u.getCodigo())) {
+			igual = true;
+		}
+		return igual;
 	}
 	
 	public boolean agregar(Plato plato) {
