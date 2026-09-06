@@ -100,6 +100,14 @@ public class Festival {
 		this.plusElectricidad = plusElectricidad;
 	}
 
+	public void agregarUnidadVenta(UnidadVenta unidad) {
+		this.unidades.add(unidad);
+	}
+
+	public boolean existeUnidadVenta(UnidadVenta unidad) {
+		return this.unidades.contains(unidad);
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idFestival);

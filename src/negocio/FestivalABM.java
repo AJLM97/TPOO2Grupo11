@@ -49,5 +49,13 @@ public class FestivalABM {
 	public List<Festival> traerFestival() {
 		return dao.traer();
 	}
+
+	public void agregarUnidadVenta(Festival festival, UnidadVenta unidad) throws Exception {
+		if(existeUnidadVenta(festival, unidad)) {
+			throw new Exception("La unidad de venta ya existe en el festival");
+		}
+		festival.agregarUnidadVenta(unidad);
+		dao.actualizar(festival);
+	}
 	
 }
