@@ -101,6 +101,23 @@ public class Festival {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(idFestival);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		//Ver si apunta a la misma referencia
+		if (this == obj) return true;
+		//Verificar si es de otra clase o si es null
+		if (obj == null || getClass() != obj.getClass()) return false;
+		//Convertir el Object a Festival
+		Festival other = (Festival) obj;
+
+		return this.idFestival == other.getIdFestival();
+	}
+
+	@Override
 	public String toString() {
 		return "Festival [idFestival=" + idFestival + ", nombre=" + nombre + ", temporada=" + temporada
 				+ ", fechInicio=" + fechInicio + ", fechaFin=" + fechaFin + ", costoSuperficie=" + costoSuperficie
