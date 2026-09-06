@@ -65,6 +65,23 @@ public class Plato {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(idPlato);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		//Ver si apunta a la misma referencia
+		if (this == obj) return true;
+		//Verificar si es de otra clase o si es null
+		if (obj == null || getClass() != obj.getClass()) return false;
+		//Convertir el Object a Plato
+		Plato other = (Plato) obj;
+
+		return this.idPlato == other.getIdPlato();
+	}
+
+	@Override
 	public String toString() {
 		return "Plato [idPlato=" + idPlato + ", nombre=" + nombre + ", precioVenta=" + precioVenta
 				+ ", costoProduccion=" + costoProduccion + "]";
