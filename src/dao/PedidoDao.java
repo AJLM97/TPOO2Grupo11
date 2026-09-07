@@ -76,12 +76,12 @@ public class PedidoDao {
 		}
 	}
 	
-	public Pedido traer(long idPedido) {
+	public Pedido traer(Pedido pedido) {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
 			objeto = (Pedido) session.createQuery("from Pedido c where c.idPedido=:idPedido")
-						.setParameter("idPedido", idPedido).uniqueResult();
+						.setParameter("idPedido", pedido.getIdPedido()).uniqueResult();
 		} finally {
 			session.close();
 		}
@@ -99,7 +99,7 @@ public class PedidoDao {
 		return lista;
 	}
 	
-	public Pedido traerPedidoYItems(long idPedido) {
+	public Pedido traerPedidoYItems(Pedido pedido) {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
@@ -109,7 +109,7 @@ public class PedidoDao {
 					"left join fetch i.plato pl " +
 					"where p.idPedido=:idPedido",
 					Pedido.class)
-				.setParameter("idPedido", idPedido)
+				.setParameter("idPedido", pedido.getIdPedido())
 				.uniqueResult();
 		} finally {
 			session.close();
@@ -117,20 +117,20 @@ public class PedidoDao {
 		return objeto;
 	}
 	
-	public void agregarItemPedido(long idPedido, ItemPedido itemPedido) {
+	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) {
 		try {
 			iniciaOperacion();
-			Pedido pedido = (Pedido) session.get(Pedido.class, idPedido);
-			if (pedido == null) {
-				throw new IllegalArgumentException("No existe el pedido con id: " + idPedido);
+			Pedido pedidoPersistido = (Pedido) session.get(Pedido.class, pedido.getIdPedido());
+			if (pedidoPersistido == null) {
+				throw new IllegalArgumentException("No existe el pedido con id: " + pedido.getIdPedido());
 			}
-			itemPedido.setPedido(pedido);
-			if (pedido.getItems() == null) {
-				pedido.setItems(new HashSet<>());
+			itemPedido.setPedido(pedidoPersistido);
+			if (pedidoPersistido.getItems() == null) {
+				pedidoPersistido.setItems(new HashSet<>());
 			}
-			pedido.getItems().add(itemPedido);
+			pedidoPersistido.getItems().add(itemPedido);
 			session.save(itemPedido);
-			session.update(pedido);
+			session.update(pedidoPersistido);
 			tx.commit();
 		} catch (HibernateException he) {
 			manejaExcepcion(he);

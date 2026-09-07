@@ -72,12 +72,12 @@ public class ItemPedidoDao {
 		}
 	}
 	
-	public ItemPedido traer(long idItemPedido) {
+	public ItemPedido traer(ItemPedido itemPedido) {
 		ItemPedido objeto = null;
 		try {
 			iniciaOperacion();
 			objeto = (ItemPedido) session.createQuery("from ItemPedido c where c.idItemPedido=:idItemPedido")
-						.setParameter("idItemPedido", idItemPedido).uniqueResult();
+						.setParameter("idItemPedido", itemPedido.getIdItemPedido()).uniqueResult();
 		} finally {
 			session.close();
 		}
