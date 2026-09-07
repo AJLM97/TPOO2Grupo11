@@ -31,13 +31,13 @@ public class PedidoABM {
 		dao.actualizar(pedido);
 	}
 
-	public void eliminar(long idPedido) {
-		Pedido aux = dao.traer(idPedido);
+	public void eliminar(Pedido pedido) {
+		Pedido aux = dao.traer(pedido);
 		dao.eliminar(aux);
 	}
 	
-	public Pedido traerPedido(long idPedido) {
-		Pedido aux = dao.traer(idPedido);
+	public Pedido traerPedido(Pedido pedido) {
+		Pedido aux = dao.traer(pedido);
 		return aux;
 	}
 
@@ -45,23 +45,23 @@ public class PedidoABM {
 		return dao.traer();
 	}
 	
-	public Pedido traerPedidoYItemPedidos(long idPedido) {
-		return dao.traerPedidoYItems(idPedido);
+	public Pedido traerPedidoYItemPedidos(Pedido pedido) {
+		return dao.traerPedidoYItems(pedido);
 	}
 	
-	public void agregarItemPedido(long idPedido, ItemPedido itemPedido) {
-		Pedido pedido = dao.traer(idPedido);
-		if (pedido != null && pedido.isCerrado()) {
-			throw new IllegalStateException("No se pueden agregar items a un pedido cerrado. ID Pedido: " + idPedido);
+	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) {
+		Pedido pedidoPersistido = dao.traer(pedido);
+		if (pedidoPersistido != null && pedidoPersistido.isCerrado()) {
+			throw new IllegalStateException("No se pueden agregar items a un pedido cerrado");
 		}
-		dao.agregarItemPedido(idPedido, itemPedido);
+		dao.agregarItemPedido(pedido, itemPedido);
 	}
 	
-	public void cerrarPedido(long idPedido) {
-		Pedido pedido = dao.traer(idPedido);
-		if (pedido != null) {
-			pedido.setCerrado(true);
-			dao.actualizar(pedido);
+	public void cerrarPedido(Pedido pedido) {
+		Pedido pedidoPersistido = dao.traer(pedido);
+		if (pedidoPersistido != null) {
+			pedidoPersistido.setCerrado(true);
+			dao.actualizar(pedidoPersistido);
 		}
 	}
 

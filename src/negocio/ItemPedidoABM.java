@@ -33,13 +33,13 @@ public class ItemPedidoABM {
 		dao.actualizar(itemPedido);
 	}
 
-	public void eliminar(long idItemPedido) {
-		ItemPedido aux = dao.traer(idItemPedido);
+	public void eliminar(ItemPedido itemPedido) {
+		ItemPedido aux = dao.traer(itemPedido);
 		dao.eliminar(aux);
 	}
 	
-	public ItemPedido traerItemPedido(long idItemPedido) {
-		ItemPedido aux = dao.traer(idItemPedido);
+	public ItemPedido traerItemPedido(ItemPedido itemPedido) {
+		ItemPedido aux = dao.traer(itemPedido);
 		return aux;
 	}
 
