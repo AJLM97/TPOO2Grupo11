@@ -1,5 +1,7 @@
 package datos;
 
+import java.util.Objects;
+
 public class ItemPedido {
 	private long idItemPedido;
 	private Plato plato;
@@ -48,7 +50,24 @@ public class ItemPedido {
 
 	@Override
 	public String toString() {
-		return "ItemPedido [idItemPedido=" + idItemPedido + ", plato=" + plato + ", cantidad=" + cantidad + "]";
+		return "ItemPedido [idItemPedido=" + idItemPedido + ", cantidad=" + cantidad + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(plato, pedido);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof ItemPedido)) {
+			return false;
+		}
+		ItemPedido other = (ItemPedido) obj;
+		return Objects.equals(plato, other.plato) && Objects.equals(pedido, other.pedido);
 	}
 
 }

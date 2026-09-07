@@ -1,6 +1,7 @@
 package datos;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 public class Pedido {
@@ -62,6 +63,24 @@ public class Pedido {
 	@Override
 	public String toString() {
 		return "Pedido [idPedido=" + idPedido + ", fechaTransaccion=" + fechaTransaccion + ", cerrado=" + cerrado + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(fechaTransaccion, unidad);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Pedido)) {
+			return false;
+		}
+		Pedido other = (Pedido) obj;
+		return Objects.equals(fechaTransaccion, other.fechaTransaccion)
+				&& Objects.equals(unidad, other.unidad);
 	}
 
 }
