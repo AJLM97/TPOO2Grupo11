@@ -110,7 +110,12 @@ public class Festival {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idFestival);
+		//Hasheamos el nombre y en caso de que sea null será un 0
+		int hashNombre = nombre != null ? nombre.toLowerCase().hashCode() : 0;
+		//Hasheamos la temporada
+		int hashTemporada = temporada != null ? temporada.toLowerCase().hashCode() : 0;
+	    //Multiplicamos el primer hash por un número para evitar casos como "verano + primavera" y "primavera + verano" dando el mismo resultado
+	    return 31 * hashNombre + hashTemporada;
 	}
 
 	@Override
@@ -122,7 +127,7 @@ public class Festival {
 		//Convertir el Object a Festival
 		Festival other = (Festival) obj;
 
-		return this.idFestival == other.getIdFestival();
+		return this.nombre.equalsIgnoreCase(other.getNombre()) && this.temporada.equalsIgnoreCase(other.getTemporada());
 	}
 
 	@Override

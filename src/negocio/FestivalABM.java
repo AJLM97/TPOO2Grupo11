@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.FestivalDao;
 import datos.Festival;
+import datos.UnidadVenta;
 
 public class FestivalABM {
 
@@ -21,7 +22,10 @@ public class FestivalABM {
 	}
 
 	public int agregar(String nombre, String temporada, LocalDate fechInicio, LocalDate fechaFin,
-			double costoSuperficie, double costoMontaje, double plusElectricidad) {
+			double costoSuperficie, double costoMontaje, double plusElectricidad) throws Exception {
+		if(!temporada.equalsIgnoreCase("primavera") && !temporada.equalsIgnoreCase("otoño") && !temporada.equalsIgnoreCase("verano") && !temporada.equalsIgnoreCase("invierno")) {
+			throw new Exception("El valor de temporada no es válido. Debe ser primavera, verano, otoño o invierno");
+		}
 		Festival aux = new Festival(nombre, temporada, fechInicio, fechaFin,
 				costoSuperficie, costoMontaje, plusElectricidad);
 		return dao.agregar(aux);
@@ -51,7 +55,7 @@ public class FestivalABM {
 	}
 
 	public void agregarUnidadVenta(Festival festival, UnidadVenta unidad) throws Exception {
-		if(existeUnidadVenta(festival, unidad)) {
+		if(festival.existeUnidadVenta(unidad)) {
 			throw new Exception("La unidad de venta ya existe en el festival");
 		}
 		festival.agregarUnidadVenta(unidad);
