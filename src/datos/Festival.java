@@ -100,6 +100,36 @@ public class Festival {
 		this.plusElectricidad = plusElectricidad;
 	}
 
+	public void agregarUnidadVenta(UnidadVenta unidad) {
+		this.unidades.add(unidad);
+	}
+
+	public boolean existeUnidadVenta(UnidadVenta unidad) {
+		return this.unidades.contains(unidad);
+	}
+
+	@Override
+	public int hashCode() {
+		//Hasheamos el nombre y en caso de que sea null será un 0
+		int hashNombre = nombre != null ? nombre.toLowerCase().hashCode() : 0;
+		//Hasheamos la temporada
+		int hashTemporada = temporada != null ? temporada.toLowerCase().hashCode() : 0;
+	    //Multiplicamos el primer hash por un número para evitar casos como "verano + primavera" y "primavera + verano" dando el mismo resultado
+	    return 31 * hashNombre + hashTemporada;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		//Ver si apunta a la misma referencia
+		if (this == obj) return true;
+		//Verificar si es de otra clase o si es null
+		if (obj == null || getClass() != obj.getClass()) return false;
+		//Convertir el Object a Festival
+		Festival other = (Festival) obj;
+
+		return this.nombre.equalsIgnoreCase(other.getNombre()) && this.temporada.equalsIgnoreCase(other.getTemporada());
+	}
+
 	@Override
 	public String toString() {
 		return "Festival [idFestival=" + idFestival + ", nombre=" + nombre + ", temporada=" + temporada

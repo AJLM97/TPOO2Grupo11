@@ -106,10 +106,6 @@ public class FestivalDao {
             objeto=(Festival) session.createQuery("from Festival f where f.idFestival=:idFestival")
             		.setParameter("idFestival", idFestival).uniqueResult();
             Hibernate.initialize(objeto.getUnidades());
-
-			for (UnidadVenta u : objeto.getUnidades()) {
-				Hibernate.initialize(u.getResponsable());
-			}
         }
  		finally {
  			session.close();
