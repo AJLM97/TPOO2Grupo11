@@ -4,7 +4,6 @@ import java.util.List;
 
 import dao.PlatoDao;
 import datos.Plato;
-import datos.UnidadVenta;
 
 public class PlatoABM {
 
@@ -20,13 +19,11 @@ public class PlatoABM {
 		return abm;
 	}
 
-	public int agregar(String nombre, double precioVenta, double costoProduccion) {
+	public int agregar(String nombre, double precioVenta, double costoProduccion) throws Exception {
+		if(dao.existePlatoSinUnaUnidadAsignada(nombre)) {
+			throw new Exception("Ya existe un Plato llamado " + nombre + ", asigna el plato ya existente a una unidad existente");
+		}
 		Plato aux = new Plato(nombre, precioVenta, costoProduccion);
-		return dao.agregar(aux);
-	}
-
-	public int agregar(String nombre, double precioVenta, double costoProduccion, UnidadVenta unidad) {
-		Plato aux = new Plato(nombre, precioVenta, costoProduccion, unidad);
 		return dao.agregar(aux);
 	}
 

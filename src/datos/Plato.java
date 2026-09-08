@@ -16,14 +16,6 @@ public class Plato {
 		this.costoProduccion = costoProduccion;
 	}
 
-	public Plato(String nombre, double precioVenta, double costoProduccion, UnidadVenta unidad) {
-		super();
-		this.nombre = nombre;
-		this.precioVenta = precioVenta;
-		this.costoProduccion = costoProduccion;
-		this.unidad = unidad;
-	}
-
 	public long getIdPlato() {
 		return idPlato;
 	}
@@ -62,6 +54,23 @@ public class Plato {
 
 	public void setUnidad(UnidadVenta unidad) {
 		this.unidad = unidad;
+	}
+
+	@Override
+	public int hashCode() {
+		return nombre.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		//Ver si apunta a la misma referencia
+		if (this == obj) return true;
+		//Verificar si es de otra clase o si es null
+		if (obj == null || getClass() != obj.getClass()) return false;
+		//Convertir el Object a Plato
+		Plato other = (Plato) obj;
+
+		return nombre.equalsIgnoreCase(other.getNombre());
 	}
 
 	@Override

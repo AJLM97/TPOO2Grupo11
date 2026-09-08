@@ -34,12 +34,9 @@ public class PlatoDao {
 		throw new HibernateException("ERROR en la capa de acceso a datos" + he.getMessage());
 	}
 	
-	public int agregar(Plato objeto) {
+	public int agregar(Plato objeto) throws HibernateException {
 		int id = 0;
 		try {
-			if(existePlatoSinAsignarUnidadVenta(objeto.getNombre())) {
-				throw new HibernateException("Ya existe un plato con el mismo nombre sin asignar a una unidad de venta.");
-			}
 			iniciaOperacion();
 			id = Integer.parseInt(session.save(objeto).toString());
 			tx.commit();
@@ -110,7 +107,7 @@ public class PlatoDao {
 		return lista;
 	}
 
-	public boolean existePlatoSinAsignarUnidadVenta(String nombre) {
+	public boolean existePlatoSinUnaUnidadAsignada(String nombre) throws HibernateException {
 		boolean resultado = false;
 		try {
 			iniciaOperacion();
