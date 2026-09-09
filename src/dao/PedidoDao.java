@@ -5,7 +5,6 @@ import java.util.List;
 
 import java.util.HashSet;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -26,69 +25,67 @@ public class PedidoDao {
 		return instancia;
 	}
 	
-	protected void iniciaOperacion() throws HibernateException {
+	protected void iniciaOperacion() throws Exception {
 		session = HibernateUtil.getSessionFactory().openSession();
 		tx = session.beginTransaction();
 	}
 	
-	protected void manejaExcepcion(HibernateException he) throws HibernateException {
+	protected void manejaExcepcion(Exception e) throws Exception {
 		tx.rollback();
-		throw new HibernateException("ERROR en la capa de acceso a datos", he);
+		throw new Exception("ERROR en la capa de acceso a datos", e);
 	}
 	
-	public int agregar(Pedido objeto) {
+	public int agregar(Pedido objeto) throws Exception {
 		int id = 0;
 		try {
 			iniciaOperacion();
 			id = Integer.parseInt(session.save(objeto).toString());
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 		return id;
 	}
 	
-	public void actualizar(Pedido objeto) {
+	public void actualizar(Pedido objeto) throws Exception {
 		try {
 			iniciaOperacion();
 			session.update(objeto);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 	}
 
-	public void eliminar(Pedido objeto) {
+	public void eliminar(Pedido objeto) throws Exception {
 		try {
 			iniciaOperacion();
 			session.delete(objeto);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 	}
 	
-	public Pedido traer(Pedido pedido) {
+	public Pedido traer(long idPedido) {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
 			objeto = (Pedido) session.createQuery("from Pedido c where c.idPedido=:idPedido")
-						.setParameter("idPedido", pedido.getIdPedido()).uniqueResult();
+						.setParameter("idPedido", idPedido).uniqueResult();
 		} finally {
 			session.close();
 		}
 		return objeto;
 	}
 	
-	public List<Pedido> traer() throws HibernateException {
+	public List<Pedido> traer() {
 		List<Pedido> lista = null;
 		try {
 			iniciaOperacion();
@@ -117,23 +114,25 @@ public class PedidoDao {
 		return objeto;
 	}
 	
-	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) {
+	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) throws Exception {
 		try {
 			iniciaOperacion();
 			Pedido pedidoPersistido = (Pedido) session.get(Pedido.class, pedido.getIdPedido());
 			if (pedidoPersistido == null) {
-				throw new IllegalArgumentException("No existe el pedido con id: " + pedido.getIdPedido());
+				throw new Exception("No existe el pedido con id: " + pedido.getIdPedido());
 			}
 			itemPedido.setPedido(pedidoPersistido);
 			if (pedidoPersistido.getItems() == null) {
 				pedidoPersistido.setItems(new HashSet<>());
 			}
-			pedidoPersistido.getItems().add(itemPedido);
+			if (!pedidoPersistido.getItems().add(itemPedido)) {
+				throw new Exception("El item del plato ya existe en el pedido");
+			}
 			session.save(itemPedido);
 			session.update(pedidoPersistido);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}

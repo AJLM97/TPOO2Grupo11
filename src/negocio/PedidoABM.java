@@ -22,22 +22,22 @@ public class PedidoABM {
 		return abm;
 	}
 
-	public int agregar(LocalDate fechaTransaccion, UnidadVenta unidad) {
+	public int agregar(LocalDate fechaTransaccion, UnidadVenta unidad) throws Exception {
 		Pedido aux = new Pedido(fechaTransaccion, unidad);
 		return dao.agregar(aux);
 	}
 
-	public void modificar(Pedido pedido) {
+	public void modificar(Pedido pedido) throws Exception {
 		dao.actualizar(pedido);
 	}
 
-	public void eliminar(Pedido pedido) {
-		Pedido aux = dao.traer(pedido);
+	public void eliminar(Pedido pedido) throws Exception {
+		Pedido aux = dao.traer(pedido.getIdPedido());
 		dao.eliminar(aux);
 	}
 	
 	public Pedido traerPedido(Pedido pedido) {
-		Pedido aux = dao.traer(pedido);
+		Pedido aux = dao.traer(pedido.getIdPedido());
 		return aux;
 	}
 
@@ -49,19 +49,20 @@ public class PedidoABM {
 		return dao.traerPedidoYItems(pedido);
 	}
 	
-	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) {
-		Pedido pedidoPersistido = dao.traer(pedido);
-		if (pedidoPersistido != null && pedidoPersistido.isCerrado()) {
-			throw new IllegalStateException("No se pueden agregar items a un pedido cerrado");
+	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) throws Exception {
+		if (pedido == null) {
+			throw new Exception("No se pueden agregar items a un pedido inexistente");
+		}
+		if (pedido.isCerrado()) {
+			throw new Exception("No se pueden agregar items a un pedido cerrado");
 		}
 		dao.agregarItemPedido(pedido, itemPedido);
 	}
 	
-	public void cerrarPedido(Pedido pedido) {
-		Pedido pedidoPersistido = dao.traer(pedido);
-		if (pedidoPersistido != null) {
-			pedidoPersistido.setCerrado(true);
-			dao.actualizar(pedidoPersistido);
+	public void cerrarPedido(Pedido pedido) throws Exception {
+		if (pedido != null) {
+			pedido.setCerrado(true);
+			dao.actualizar(pedido);
 		}
 	}
 

@@ -20,20 +20,20 @@ public class ItemPedidoABM {
 		return abm;
 	}
 
-	public int agregar(Plato plato, long cantidad) {
+	public int agregar(Plato plato, long cantidad) throws Exception {
 		ItemPedido aux = new ItemPedido(plato, cantidad);
 		return dao.agregar(aux);
 	}
 	
-	public int agregar(ItemPedido itemPedido) {
+	public int agregar(ItemPedido itemPedido) throws Exception {
 		return dao.agregar(itemPedido);
 	}
 
-	public void modificar(ItemPedido itemPedido) {
+	public void modificar(ItemPedido itemPedido) throws Exception {
 		dao.actualizar(itemPedido);
 	}
 
-	public void eliminar(ItemPedido itemPedido) {
+	public void eliminar(ItemPedido itemPedido) throws Exception {
 		ItemPedido aux = dao.traer(itemPedido);
 		dao.eliminar(aux);
 	}
