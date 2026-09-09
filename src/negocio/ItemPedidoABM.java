@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.ItemPedidoDao;
 import datos.ItemPedido;
+import datos.Pedido;
 import datos.Plato;
 
 public class ItemPedidoABM {
@@ -23,6 +24,12 @@ public class ItemPedidoABM {
 	public int agregar(Plato plato, long cantidad) throws Exception {
 		ItemPedido aux = new ItemPedido(plato, cantidad);
 		return dao.agregar(aux);
+	}
+
+	public ItemPedido agregar(Pedido pedido, Plato plato, long cantidad) throws Exception {
+		ItemPedido itemPedido = new ItemPedido(plato, cantidad);
+		PedidoABM.getInstancia().agregarItemPedido(pedido, itemPedido);
+		return itemPedido;
 	}
 	
 	public int agregar(ItemPedido itemPedido) throws Exception {
