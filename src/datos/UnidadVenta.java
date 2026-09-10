@@ -121,6 +121,26 @@ public abstract class UnidadVenta {
 		eliminar = platos.remove(borrar);
 		return eliminar;
 	}
+	
+	public boolean agregar(Empleado empleado) {
+		boolean agregar = false;
+		if(!(staff.contains(empleado))) {
+			agregar = staff.add(empleado);
+		}
+		return agregar;
+	}
+	
+	public boolean eliminar(Empleado empleado) {
+		Empleado borrar = null;
+		boolean eliminar = false;
+		Iterator<Empleado> it = staff.iterator();
+		while((it.hasNext()) && (borrar==null)) {
+			Empleado aux = it.next();
+			if(aux.equals(empleado)) borrar = aux;
+		}
+		eliminar = staff.remove(borrar);
+		return eliminar;
+	}
 
 	@Override
 	public String toString() {

@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import datos.Empleado;
 import datos.Plato;
 import datos.UnidadVenta;
 
@@ -209,6 +210,27 @@ public class UnidadVentaDao {
 			session.close();
 		}
 		return lst;
+	}
+	
+	public boolean agregarStaffAUnidadVenta(UnidadVenta unidadVenta, Empleado empleado) {
+		boolean agregado = false;
+		try {
+			iniciaOperacion();
+			agregado = unidadVenta.agregar(empleado);
+			if(agregado == true) {
+				session.update(unidadVenta);
+				tx.commit();
+			}
+			
+		} catch (HibernateException he) {
+			manejaExcepcion(he);
+			throw he;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return agregado;
 	}
 	
 }
