@@ -52,6 +52,24 @@ public class Pedido {
 		this.items = items;
 	}
 
+	public ItemPedido traerItemPedidoPorPlato(Plato plato) {
+		if (items == null) {
+			return null;
+		}
+		return items.stream()
+				.filter(item -> Objects.equals(item.getPlato(), plato))
+				.findFirst()
+				.orElse(null);
+	}
+
+	public void agregarItemPedido(ItemPedido itemPedido) {
+		if (items == null) {
+			items = new java.util.HashSet<>();
+		}
+		itemPedido.setPedido(this);
+		items.add(itemPedido);
+	}
+
 	public boolean isCerrado() {
 		return cerrado;
 	}

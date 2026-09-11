@@ -21,7 +21,7 @@ public class ItemPedidoDao {
 		return instancia;
 	}
 	
-	protected void iniciaOperacion() throws Exception {
+	protected void iniciaOperacion() {
 		session = HibernateUtil.getSessionFactory().openSession();
 		tx = session.beginTransaction();
 	}

@@ -23,9 +23,7 @@ public class TestAgregarItemPedido {
 		try {
 			FoodTruck foodTruckA = (FoodTruck) uABM.traerUnidadVenta(2L);
 			long idPedidoA = peABM.agregar(LocalDate.now(), foodTruckA);
-			Pedido pedidoA = peABM.traerPedido().stream()
-					.filter(pedido -> pedido.getIdPedido() == idPedidoA)
-					.findFirst().orElseThrow();
+			Pedido pedidoA = peABM.traerPedido(idPedidoA);
 			Plato platoA = pABM.traerPlato(7L); // Pizza fugazzeta
 			Plato platoB = pABM.traerPlato(12L); // Pizza margarita
 			Plato platoC = pABM.traerPlato(14L); // Pizza napolitana
@@ -43,9 +41,7 @@ public class TestAgregarItemPedido {
 		try {
 			FoodTruck foodTruckB = (FoodTruck) uABM.traerUnidadVenta(3L);
 			long idPedidoB = peABM.agregar(LocalDate.now(), foodTruckB);
-			Pedido pedidoB = peABM.traerPedido().stream()
-					.filter(pedido -> pedido.getIdPedido() == idPedidoB)
-					.findFirst().orElseThrow();
+			Pedido pedidoB = peABM.traerPedido(idPedidoB);
 			Plato platoA = pABM.traerPlato(15L); // Nigiri
 			Plato platoB = pABM.traerPlato(16L); // Tempura
 

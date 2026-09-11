@@ -27,9 +27,7 @@ public class ItemPedidoABM {
 	}
 
 	public ItemPedido agregar(Pedido pedido, Plato plato, long cantidad) throws Exception {
-		ItemPedido itemPedido = new ItemPedido(plato, cantidad);
-		PedidoABM.getInstancia().agregarItemPedido(pedido, itemPedido);
-		return itemPedido;
+		return PedidoABM.getInstancia().agregarItemPedido(pedido, plato, cantidad);
 	}
 	
 	public int agregar(ItemPedido itemPedido) throws Exception {

@@ -6,6 +6,7 @@ import java.util.List;
 import dao.PedidoDao;
 import datos.ItemPedido;
 import datos.Pedido;
+import datos.Plato;
 import datos.UnidadVenta;
 
 public class PedidoABM {
@@ -36,9 +37,8 @@ public class PedidoABM {
 		dao.eliminar(aux);
 	}
 	
-	public Pedido traerPedido(Pedido pedido) {
-		Pedido aux = dao.traer(pedido.getIdPedido());
-		return aux;
+	public Pedido traerPedido(long idPedido) {
+		return dao.traer(idPedido);
 	}
 
 	public List<Pedido> traerPedido() {
@@ -49,14 +49,22 @@ public class PedidoABM {
 		return dao.traerPedidoYItems(pedido);
 	}
 	
-	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) throws Exception {
+	public ItemPedido agregarItemPedido(Pedido pedido, Plato plato, long cantidad) throws Exception {
 		if (pedido == null) {
 			throw new Exception("No se pueden agregar items a un pedido inexistente");
 		}
 		if (pedido.isCerrado()) {
 			throw new Exception("No se pueden agregar items a un pedido cerrado");
 		}
-		dao.agregarItemPedido(pedido, itemPedido);
+		ItemPedido itemPedido = pedido.traerItemPedidoPorPlato(plato);
+		if (itemPedido == null) {
+			itemPedido = new ItemPedido(plato, cantidad);
+			pedido.agregarItemPedido(itemPedido);
+		} else {
+			itemPedido.setCantidad(itemPedido.getCantidad() + cantidad);
+		}
+		dao.actualizar(pedido);
+		return itemPedido;
 	}
 	
 	public void cerrarPedido(Pedido pedido) throws Exception {
