@@ -31,6 +31,7 @@ public class TestAgregarItemPedido {
 			ipeABM.agregar(pedidoA, platoA, 2);
 			ipeABM.agregar(pedidoA, platoB, 3);
 			ipeABM.agregar(pedidoA, platoC, 1);
+			ipeABM.agregar(pedidoA, platoA, 5);
 
 			System.out.println("Se agregaron 3 items al pedido con id: " + pedidoA.getIdPedido());
 			peABM.cerrarPedido(pedidoA);

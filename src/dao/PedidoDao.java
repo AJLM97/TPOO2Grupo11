@@ -77,7 +77,7 @@ public class PedidoDao {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
-			objeto = (Pedido) session.createQuery("from Pedido c where c.idPedido=:idPedido")
+			objeto = (Pedido) session.createQuery("from Pedido p join fetch p.unidad where p.idPedido=:idPedido")
 						.setParameter("idPedido", idPedido).uniqueResult();
 		} finally {
 			session.close();
