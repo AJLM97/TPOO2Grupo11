@@ -44,5 +44,9 @@ public class PlatoABM {
 	public List<Plato> traerPlato() {
 		return dao.traer();
 	}
+
+	public long traerCantidadDeVecesVendido(Plato plato) {
+		return dao.traerCantidadDeVecesVendido(plato);
+	}
 	
 }

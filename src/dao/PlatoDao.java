@@ -121,5 +121,22 @@ public class PlatoDao {
 		}
 		return resultado;
 	}
+
+	public long traerCantidadDeVecesVendido(Plato plato) throws HibernateException {
+		try {
+			iniciaOperacion();
+			Number resultado = (Number) session.createQuery(
+					"select sum(i.cantidad) "
+					+ "from ItemPedido i "
+					+ "join i.pedido p "
+					+ "where p.cerrado = true and i.plato.idPlato = :idPlato")
+					.setParameter("idPlato", plato.getIdPlato())
+					.uniqueResult();
+
+			return resultado != null ? resultado.longValue() : 0L;
+		} finally {
+			session.close();
+		}
+	}
 	
 }

@@ -295,5 +295,22 @@ public class UnidadVentaDao {
 			session.close();
 		}
 	}
+
+	public Plato traerPlatoMasRentable(UnidadVenta unidadVenta) throws HibernateException {
+		try {
+			iniciaOperacion();
+			Plato plato = (Plato) session.createQuery(
+					"select i.plato from ItemPedido i "
+					+ "join i.pedido p "
+					+ "where p.unidad.idUnidadVenta = :idUnidadVenta and p.cerrado = true "
+					+ "group by i.plato "
+					+ "order by sum(i.cantidad * (i.plato.precioVenta - i.plato.costoProduccion)) desc, i.plato.idPlato asc")
+					.setParameter("idUnidadVenta", unidadVenta.getIdUnidadVenta())
+					.setMaxResults(1).uniqueResult();
+			return plato;
+		} finally {
+			session.close();
+		}
+	}
 	
 }

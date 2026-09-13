@@ -96,5 +96,9 @@ public class UnidadVentaABM {
 	public double calcularRecaudacion(UnidadVenta unidadVenta) {
 		return dao.calcularRecaudacion(unidadVenta);
 	}
+
+	public Plato traerPlatoMasRentable(UnidadVenta unidadVenta) {
+		return dao.traerPlatoMasRentable(unidadVenta);
+	}
 	
 }
