@@ -1,5 +1,6 @@
 package dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -8,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Festival;
+import datos.UnidadVenta;
 
 public class FestivalDao {
 	private static Session session;
@@ -111,5 +113,22 @@ public class FestivalDao {
         }
         return objeto;
     }
+	
+	public UnidadVenta traerUnidadVentaQueMasRecaudo(Festival festival) throws HibernateException {
+		try {
+			iniciaOperacion();
+			UnidadVenta resultado = (UnidadVenta) session.createQuery(
+					"select p.unidad from Pedido p "
+					+ "join p.items i "
+					+ "where p.unidad.festival.idFestival = :idFestival and p.cerrado = true "
+					+ "group by p.unidad "
+					+ "order by sum(i.cantidad * i.plato.precioVenta) desc, p.unidad.idUnidadVenta asc")
+					.setParameter("idFestival", festival.getIdFestival())
+					.setMaxResults(1).uniqueResult();
+			return resultado;
+		} finally {
+			session.close();
+		}
+	}
 	
 }

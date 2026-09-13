@@ -92,4 +92,9 @@ public class UnidadVentaABM {
 	public Empleado traerEmpleadoMasAntiguo(UnidadVenta unidadventa) {
 		return dao.traerEmpleadoMasAntiguoPorUnidadVenta(unidadventa);
 	}
+
+	public double calcularRecaudacion(UnidadVenta unidadVenta) {
+		return dao.calcularRecaudacion(unidadVenta);
+	}
+	
 }

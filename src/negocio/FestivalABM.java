@@ -61,5 +61,9 @@ public class FestivalABM {
 		festival.agregarUnidadVenta(unidad);
 		dao.actualizar(festival);
 	}
+
+	public UnidadVenta traerUnidadVentaQueMasRecaudo(Festival festival) {
+		return dao.traerUnidadVentaQueMasRecaudo(festival);
+	}
 	
 }

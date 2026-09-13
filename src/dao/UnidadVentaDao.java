@@ -280,5 +280,20 @@ public class UnidadVentaDao {
 		}
 		return empleado;
 	}
+
+	public double calcularRecaudacion(UnidadVenta unidadVenta) throws HibernateException {
+		try {
+			iniciaOperacion();
+			Number resultado = (Number) session.createQuery(
+					"select sum(i.cantidad * i.plato.precioVenta) from Pedido p "
+					+ "join p.items i "
+					+ "where p.unidad.idUnidadVenta = :idUnidadVenta and p.cerrado = true")
+					.setParameter("idUnidadVenta", unidadVenta.getIdUnidadVenta())
+					.setMaxResults(1).uniqueResult();
+			return resultado != null ? resultado.doubleValue() : 0.0;
+		} finally {
+			session.close();
+		}
+	}
 	
 }
