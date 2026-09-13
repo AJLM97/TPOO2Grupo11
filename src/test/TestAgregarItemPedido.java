@@ -1,14 +1,10 @@
 package test;
 
-import java.time.LocalDate;
-
-import datos.FoodTruck;
 import datos.Pedido;
 import datos.Plato;
 import negocio.ItemPedidoABM;
 import negocio.PedidoABM;
 import negocio.PlatoABM;
-import negocio.UnidadVentaABM;
 
 public class TestAgregarItemPedido {
 
@@ -18,11 +14,9 @@ public class TestAgregarItemPedido {
 		PedidoABM peABM = PedidoABM.getInstancia();
 		ItemPedidoABM ipeABM = ItemPedidoABM.getInstancia();
 		PlatoABM pABM = PlatoABM.getInstancia();
-		UnidadVentaABM uABM = UnidadVentaABM.getInstancia();
 
 		try {
-			FoodTruck foodTruckA = (FoodTruck) uABM.traerUnidadVenta(2L);
-			long idPedidoA = peABM.agregar(LocalDate.now(), foodTruckA);
+			long idPedidoA = 1L;
 			Pedido pedidoA = peABM.traerPedido(idPedidoA);
 			Plato platoA = pABM.traerPlato(7L); // Pizza fugazzeta
 			Plato platoB = pABM.traerPlato(12L); // Pizza margarita
@@ -40,8 +34,7 @@ public class TestAgregarItemPedido {
 		}
 
 		try {
-			FoodTruck foodTruckB = (FoodTruck) uABM.traerUnidadVenta(3L);
-			long idPedidoB = peABM.agregar(LocalDate.now(), foodTruckB);
+			long idPedidoB = 2L;
 			Pedido pedidoB = peABM.traerPedido(idPedidoB);
 			Plato platoA = pABM.traerPlato(15L); // Nigiri
 			Plato platoB = pABM.traerPlato(16L); // Tempura

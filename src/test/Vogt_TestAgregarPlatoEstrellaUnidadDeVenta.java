@@ -1,6 +1,6 @@
 package test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import datos.FoodTruck;
 import datos.Plato;
@@ -24,7 +24,7 @@ public class Vogt_TestAgregarPlatoEstrellaUnidadDeVenta {
 			FoodTruck unidad = (FoodTruck) unidadABM.traerUnidadVenta(2L);
 			Plato platoEsperado = platoABM.traerPlato(7L);
 			Plato otroPlato = platoABM.traerPlato(12L);
-			Pedido pedido = pedidoABM.traerPedido(pedidoABM.agregar(LocalDate.now(), unidad));
+			Pedido pedido = pedidoABM.traerPedido(pedidoABM.agregar(LocalDateTime.now(), unidad));
 
 			itemPedidoABM.agregar(pedido, platoEsperado, 100);
 			itemPedidoABM.agregar(pedido, otroPlato, 1);

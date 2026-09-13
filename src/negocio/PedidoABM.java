@@ -1,6 +1,6 @@
 package negocio;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import dao.PedidoDao;
@@ -23,7 +23,7 @@ public class PedidoABM {
 		return abm;
 	}
 
-	public int agregar(LocalDate fechaTransaccion, UnidadVenta unidad) throws Exception {
+	public int agregar(LocalDateTime fechaTransaccion, UnidadVenta unidad) throws Exception {
 		Pedido aux = new Pedido(fechaTransaccion, unidad);
 		return dao.agregar(aux);
 	}
@@ -74,7 +74,7 @@ public class PedidoABM {
 		}
 	}
 
-	public double calcularRecaudacionTotalEntreFechas(LocalDate fechaDesde, LocalDate fechaHasta) {
+	public double calcularRecaudacionTotalEntreFechas(LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
 		return dao.calcularRecaudacionTotalEntreFechas(fechaDesde, fechaHasta);
 	}
 	

@@ -1,6 +1,6 @@
 package dao;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.HashSet;
@@ -138,7 +138,7 @@ public class PedidoDao {
 		}
 	}
 
-	public double calcularRecaudacionTotalEntreFechas(LocalDate fechaDesde, LocalDate fechaHasta) {
+	public double calcularRecaudacionTotalEntreFechas(LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
 		try {
 			iniciaOperacion();
 			Number resultado = (Number) session.createQuery(

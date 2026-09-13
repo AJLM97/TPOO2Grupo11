@@ -1,6 +1,6 @@
 package test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import datos.FoodTruck;
 import negocio.PedidoABM;
@@ -19,7 +19,7 @@ public class TestAgregarPedido {
 
 		try {
 			FoodTruck foodTruck = (FoodTruck) uABM.traerUnidadVenta(idFoodTruckA);
-			long idPedido = peABM.agregar(LocalDate.of(2026, 9, 5), foodTruck);
+			long idPedido = peABM.agregar(LocalDateTime.of(2026, 9, 5, 10, 30), foodTruck);
 			System.out.printf("Id Pedido: %d%n", idPedido);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -27,7 +27,7 @@ public class TestAgregarPedido {
 
 		try {
         	FoodTruck foodTruck = (FoodTruck) uABM.traerUnidadVenta(idFoodTruckB);
-            long idPedido = peABM.agregar(LocalDate.of(2026, 9, 5), foodTruck);
+            long idPedido = peABM.agregar(LocalDateTime.of(2026, 9, 5, 13, 45), foodTruck);
             System.out.printf("Id Pedido: %d", idPedido);
         } catch(Exception e) {
             e.printStackTrace();
