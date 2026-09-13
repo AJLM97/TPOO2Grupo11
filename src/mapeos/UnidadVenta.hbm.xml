@@ -18,7 +18,7 @@
 		    <one-to-many class="datos.Empleado"/>
 		</set>
 	    
-	    <set name="platos" table="plato" order-by="idPlato asc" inverse="true" lazy="true" fetch="select">
+	    <set name="platos" table="plato" order-by="idPlato asc" inverse="true" cascade="save-update" lazy="false" fetch="select">
 		    <key column="idUnidadVenta"/>
 		    <one-to-many class="datos.Plato"/>
 		</set>

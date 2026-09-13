@@ -16,12 +16,13 @@ public abstract class UnidadVenta {
 	
 	public UnidadVenta() {}
 
-	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable) {
+	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable, Festival festival) {
 		super();
 		this.nombreComercial = nombreComercial;
 		this.codigo = codigo;
 		this.superficie = superficie;
 		this.responsable = responsable;
+		this.festival = festival;
 	}
 
 	public long getIdUnidadVenta() {
