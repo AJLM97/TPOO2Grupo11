@@ -88,4 +88,8 @@ public class UnidadVentaABM {
 	public boolean agregarStaff(UnidadVenta unidadVenta, Empleado empleado) {
 		return dao.agregarStaffAUnidadVenta(unidadVenta, empleado);
 	}
+	
+	public Empleado traerEmpleadoMasAntiguo(UnidadVenta unidadventa) {
+		return dao.traerEmpleadoMasAntiguoPorUnidadVenta(unidadventa);
+	}
 }

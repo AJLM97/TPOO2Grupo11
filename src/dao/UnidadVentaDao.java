@@ -37,7 +37,7 @@ public class UnidadVentaDao {
 		throw new HibernateException("ERROR en la capa de acceso a datos" + he.getMessage());
 	}
 	
-	public int agregar(UnidadVenta objeto) {
+	public int agregar(UnidadVenta objeto) throws HibernateException {
 		int id = 0;
 		try {
 			iniciaOperacion();
@@ -53,7 +53,7 @@ public class UnidadVentaDao {
 		return id;
 	}
 	
-	public void actualizar(UnidadVenta objeto) {
+	public void actualizar(UnidadVenta objeto) throws HibernateException {
 		try {
 			iniciaOperacion();
 			session.update(objeto);
@@ -68,7 +68,7 @@ public class UnidadVentaDao {
 		}
 	}
 
-	public void eliminar(UnidadVenta objeto) {
+	public void eliminar(UnidadVenta objeto) throws HibernateException {
 		try {
 			iniciaOperacion();
 			session.delete(objeto);
@@ -200,7 +200,7 @@ public class UnidadVentaDao {
 		return resultado;
 	}
 	
-	public boolean agregarPlato(long idPlato, long idUnidadVenta) {
+	public boolean agregarPlato(long idPlato, long idUnidadVenta) throws HibernateException {
 		boolean resultado = false;
 		try {
 			iniciaOperacion();
@@ -234,19 +234,26 @@ public class UnidadVentaDao {
 		return lst;
 	}
 	
-	public boolean agregarStaffAUnidadVenta(UnidadVenta unidadVenta, Empleado empleado) {
+	public boolean agregarStaffAUnidadVenta(UnidadVenta unidadVenta, Empleado empleado)throws HibernateException {
 		boolean agregado = false;
 		try {
 			iniciaOperacion();
-			agregado = unidadVenta.agregar(empleado);
-			if(agregado == true) {
-				session.update(unidadVenta);
-				tx.commit();
+
+	        UnidadVenta uv = (UnidadVenta) session.merge(unidadVenta);
+	        Empleado emp = (Empleado) session.merge(empleado);
+
+	        agregado = uv.agregar(emp);
+
+	        if (agregado) {
+	            emp.setUnidad(uv); 
+
+	            session.update(emp);
+	            
+	            tx.commit();
 			}
 			
 		} catch (HibernateException he) {
 			manejaExcepcion(he);
-			throw he;
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -255,5 +262,23 @@ public class UnidadVentaDao {
 		return agregado;
 	}
 	
+	public Empleado traerEmpleadoMasAntiguoPorUnidadVenta(UnidadVenta unidadVenta)throws HibernateException {
+		Empleado empleado = null;
+		try {
+			iniciaOperacion();
+			String hql = "select e from UnidadVenta u " +
+			"join u.staff e " +
+			"where u.idUnidadVenta = :id " +
+			"order by e.fechaIngreso asc";
+			empleado = (Empleado) session.createQuery(hql).setParameter("id", unidadVenta.getIdUnidadVenta()).setMaxResults(1).uniqueResult();
+		} catch(HibernateException he){
+			
+		} finally {
+			if(session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return empleado;
+	}
 	
 }
