@@ -67,22 +67,17 @@ public class UnidadVentaABM {
 		return dao.traer();
 	}
 
-	public void existePlatoEnUnidadVenta(long idPlato, long idUnidadVenta) {
-		dao.existePlatoEnUnidadVenta(idPlato, idUnidadVenta);
+	public boolean existePlatoEnUnidadVenta(UnidadVenta unidad, Plato plato) {
+		return unidad.getPlatos().contains(plato);
 	}
 	
-	public void agregarPlatoAUnidadVenta(long idPlato, long idUnidadVenta) {
-		try {
-			if(dao.existePlatoEnUnidadVenta(idPlato, idUnidadVenta)) {
-				throw new IllegalArgumentException("El plato ya existe en la unidad de venta");
-			}
-			if(!dao.existePlatoSinUnidadVenta(idPlato)) {
-				throw new IllegalArgumentException("El plato ya está asignado a otra unidad de venta");
-			}
-			dao.agregarPlato(idPlato, idUnidadVenta);
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException(e.getMessage());
+	public void agregarPlatoAUnidadVenta(UnidadVenta unidad, Plato plato) throws Exception {
+		if(existePlatoEnUnidadVenta(unidad, plato)) {
+			throw new Exception("El plato ya existe en la unidad de venta");
 		}
+		unidad.agregar(plato);
+		plato.setUnidad(unidad);
+		dao.actualizar(unidad);
 	}
 	
 	public List<UnidadVenta> traerUnidadVentaConResponsable() {
@@ -90,4 +85,11 @@ public class UnidadVentaABM {
 		return dao.traerUnidadVentaConResponsable();
 	}
 	
+	public boolean agregarStaff(UnidadVenta unidadVenta, Empleado empleado) {
+		return dao.agregarStaffAUnidadVenta(unidadVenta, empleado);
+	}
+	
+	public Empleado traerEmpleadoMasAntiguo(UnidadVenta unidadventa) {
+		return dao.traerEmpleadoMasAntiguoPorUnidadVenta(unidadventa);
+	}
 }

@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Festival;
-import datos.UnidadVenta;
 
 public class FestivalDao {
 	private static Session session;

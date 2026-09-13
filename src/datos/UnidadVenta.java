@@ -16,12 +16,13 @@ public abstract class UnidadVenta {
 	
 	public UnidadVenta() {}
 
-	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable) {
+	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable, Festival festival) {
 		super();
 		this.nombreComercial = nombreComercial;
 		this.codigo = codigo;
 		this.superficie = superficie;
 		this.responsable = responsable;
+		this.festival = festival;
 	}
 
 	public long getIdUnidadVenta() {
@@ -119,6 +120,26 @@ public abstract class UnidadVenta {
 			if(aux.equals(plato)) borrar = aux;
 		}
 		eliminar = platos.remove(borrar);
+		return eliminar;
+	}
+	
+	public boolean agregar(Empleado empleado) {
+		boolean agregar = false;
+		if(!(staff.contains(empleado))) {
+			agregar = staff.add(empleado);
+		}
+		return agregar;
+	}
+	
+	public boolean eliminar(Empleado empleado) {
+		Empleado borrar = null;
+		boolean eliminar = false;
+		Iterator<Empleado> it = staff.iterator();
+		while((it.hasNext()) && (borrar==null)) {
+			Empleado aux = it.next();
+			if(aux.equals(empleado)) borrar = aux;
+		}
+		eliminar = staff.remove(borrar);
 		return eliminar;
 	}
 
