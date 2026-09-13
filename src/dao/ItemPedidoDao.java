@@ -2,7 +2,6 @@ package dao;
 
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -22,69 +21,67 @@ public class ItemPedidoDao {
 		return instancia;
 	}
 	
-	protected void iniciaOperacion() throws HibernateException {
+	protected void iniciaOperacion() {
 		session = HibernateUtil.getSessionFactory().openSession();
 		tx = session.beginTransaction();
 	}
 	
-	protected void manejaExcepcion(HibernateException he) throws HibernateException {
+	protected void manejaExcepcion(Exception e) throws Exception {
 		tx.rollback();
-		throw new HibernateException("ERROR en la capa de acceso a datos", he);
+		throw new Exception("ERROR en la capa de acceso a datos", e);
 	}
 	
-	public int agregar(ItemPedido objeto) {
+	public int agregar(ItemPedido objeto) throws Exception {
 		int id = 0;
 		try {
 			iniciaOperacion();
 			id = Integer.parseInt(session.save(objeto).toString());
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 		return id;
 	}
 	
-	public void actualizar(ItemPedido objeto) {
+	public void actualizar(ItemPedido objeto) throws Exception {
 		try {
 			iniciaOperacion();
 			session.update(objeto);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 	}
 
-	public void eliminar(ItemPedido objeto) {
+	public void eliminar(ItemPedido objeto) throws Exception {
 		try {
 			iniciaOperacion();
 			session.delete(objeto);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 	}
 	
-	public ItemPedido traer(long idItemPedido) {
+	public ItemPedido traer(ItemPedido itemPedido) {
 		ItemPedido objeto = null;
 		try {
 			iniciaOperacion();
 			objeto = (ItemPedido) session.createQuery("from ItemPedido c where c.idItemPedido=:idItemPedido")
-						.setParameter("idItemPedido", idItemPedido).uniqueResult();
+						.setParameter("idItemPedido", itemPedido.getIdItemPedido()).uniqueResult();
 		} finally {
 			session.close();
 		}
 		return objeto;
 	}
 	
-	public List<ItemPedido> traer() throws HibernateException {
+	public List<ItemPedido> traer() {
 		List<ItemPedido> lista = null;
 		try {
 			iniciaOperacion();

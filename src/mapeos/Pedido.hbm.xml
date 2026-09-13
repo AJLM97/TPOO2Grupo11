@@ -9,11 +9,11 @@
             <generator class="identity"/>
         </id>
 		<!-- Atributos - Columnas -->
-        <property name="fechaTransaccion" column="fechaTransaccion" type="java.time.LocalDate" not-null="true"/>
+        <property name="fechaTransaccion" column="fechaTransaccion" type="java.time.LocalDateTime" not-null="true"/>
         <property name="cerrado" column="cerrado" type="boolean" not-null="true"/>
 	    
 	    <many-to-one name="unidad" class="datos.UnidadVenta" column="idUnidadVenta" not-null="true"/>
-    <set name="items" table="itempedido" order-by="idItemPedido asc" inverse="true" lazy="false" fetch="select">
+    	<set name="items" table="itempedido" order-by="idItemPedido asc" inverse="true" cascade="save-update" lazy="false" fetch="select">
 	        <key column="idPedido" not-null="true"  />
 	        <one-to-many class="datos.ItemPedido" />
 	    </set>

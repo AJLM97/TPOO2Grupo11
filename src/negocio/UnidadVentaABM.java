@@ -6,6 +6,7 @@ import dao.UnidadVentaDao;
 import datos.Empleado;
 import datos.Festival;
 import datos.FoodTruck;
+import datos.Plato;
 import datos.PuestoDesarmable;
 import datos.UnidadVenta;
 
@@ -49,6 +50,17 @@ public class UnidadVentaABM {
 	public UnidadVenta traerUnidadVenta(long idUnidadVenta) {
 		UnidadVenta aux = dao.traer(idUnidadVenta);
 		return aux;
+	}
+
+	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) {
+		return dao.platoEstrellaDeUnidadVenta(idUnidadVenta);
+	}
+
+	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) {
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		return platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
 	}
 
 	public List<UnidadVenta> traerUnidadVenta() {

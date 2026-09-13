@@ -1,11 +1,10 @@
 package dao;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.HashSet;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -26,51 +25,49 @@ public class PedidoDao {
 		return instancia;
 	}
 	
-	protected void iniciaOperacion() throws HibernateException {
+	protected void iniciaOperacion() {
 		session = HibernateUtil.getSessionFactory().openSession();
 		tx = session.beginTransaction();
 	}
 	
-	protected void manejaExcepcion(HibernateException he) throws HibernateException {
+	protected void manejaExcepcion(Exception e) throws Exception {
 		tx.rollback();
-		throw new HibernateException("ERROR en la capa de acceso a datos", he);
+		throw new Exception("ERROR en la capa de acceso a datos", e);
 	}
 	
-	public int agregar(Pedido objeto) {
+	public int agregar(Pedido objeto) throws Exception {
 		int id = 0;
 		try {
 			iniciaOperacion();
 			id = Integer.parseInt(session.save(objeto).toString());
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 		return id;
 	}
 	
-	public void actualizar(Pedido objeto) {
+	public void actualizar(Pedido objeto) throws Exception {
 		try {
 			iniciaOperacion();
 			session.update(objeto);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 	}
 
-	public void eliminar(Pedido objeto) {
+	public void eliminar(Pedido objeto) throws Exception {
 		try {
 			iniciaOperacion();
 			session.delete(objeto);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
@@ -80,7 +77,7 @@ public class PedidoDao {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
-			objeto = (Pedido) session.createQuery("from Pedido c where c.idPedido=:idPedido")
+			objeto = (Pedido) session.createQuery("from Pedido p join fetch p.unidad where p.idPedido=:idPedido")
 						.setParameter("idPedido", idPedido).uniqueResult();
 		} finally {
 			session.close();
@@ -88,7 +85,7 @@ public class PedidoDao {
 		return objeto;
 	}
 	
-	public List<Pedido> traer() throws HibernateException {
+	public List<Pedido> traer() {
 		List<Pedido> lista = null;
 		try {
 			iniciaOperacion();
@@ -99,7 +96,7 @@ public class PedidoDao {
 		return lista;
 	}
 	
-	public Pedido traerPedidoYItems(long idPedido) {
+	public Pedido traerPedidoYItems(Pedido pedido) {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
@@ -109,7 +106,7 @@ public class PedidoDao {
 					"left join fetch i.plato pl " +
 					"where p.idPedido=:idPedido",
 					Pedido.class)
-				.setParameter("idPedido", idPedido)
+				.setParameter("idPedido", pedido.getIdPedido())
 				.uniqueResult();
 		} finally {
 			session.close();
@@ -117,29 +114,31 @@ public class PedidoDao {
 		return objeto;
 	}
 	
-	public void agregarItemPedido(long idPedido, ItemPedido itemPedido) {
+	public void agregarItemPedido(Pedido pedido, ItemPedido itemPedido) throws Exception {
 		try {
 			iniciaOperacion();
-			Pedido pedido = (Pedido) session.get(Pedido.class, idPedido);
-			if (pedido == null) {
-				throw new IllegalArgumentException("No existe el pedido con id: " + idPedido);
+			Pedido pedidoPersistido = (Pedido) session.get(Pedido.class, pedido.getIdPedido());
+			if (pedidoPersistido == null) {
+				throw new Exception("No existe el pedido con id: " + pedido.getIdPedido());
 			}
-			itemPedido.setPedido(pedido);
-			if (pedido.getItems() == null) {
-				pedido.setItems(new HashSet<>());
+			itemPedido.setPedido(pedidoPersistido);
+			if (pedidoPersistido.getItems() == null) {
+				pedidoPersistido.setItems(new HashSet<>());
 			}
-			pedido.getItems().add(itemPedido);
+			if (!pedidoPersistido.getItems().add(itemPedido)) {
+				throw new Exception("El item del plato ya existe en el pedido");
+			}
 			session.save(itemPedido);
-			session.update(pedido);
+			session.update(pedidoPersistido);
 			tx.commit();
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
+		} catch (Exception e) {
+			manejaExcepcion(e);
 		} finally {
 			session.close();
 		}
 	}
 
-	public double calcularRecaudacionTotalEntreFechas(LocalDate fechaDesde, LocalDate fechaHasta) {
+	public double calcularRecaudacionTotalEntreFechas(LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
 		try {
 			iniciaOperacion();
 			Number resultado = (Number) session.createQuery(
