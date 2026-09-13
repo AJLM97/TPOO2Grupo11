@@ -14,7 +14,8 @@ public class TestTraerPedidoYItemPedido {
 		PedidoABM peABM = PedidoABM.getInstancia();
 
 		try {
-			Pedido pedido = peABM.traerPedidoYItemPedidos(1L);  // 2026/09/05 - Pizzas Ledesma
+			Pedido pedidoBase = peABM.traerPedido().get(0);
+			Pedido pedido = peABM.traerPedidoYItemPedidos(pedidoBase);
 			System.out.println("Pedido ID " + pedido.getIdPedido());
 			System.out.println(pedido);
 
