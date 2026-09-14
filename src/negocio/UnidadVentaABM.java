@@ -91,10 +91,7 @@ public class UnidadVentaABM {
 		return dao.traerPlatoEstrellaPorRecaudacion(idUnidadVenta, fechaDesde, fechaHasta);
 	}
 
-	public Plato traerPlatoEstrellaPorRentabilidad(long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
-		return dao.traerPlatoEstrellaPorRentabilidad(idUnidadVenta, fechaDesde, fechaHasta);
-	}
+
 
 	public List<UnidadVenta> traerUnidadVenta() {
 		return dao.traer();

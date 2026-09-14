@@ -230,11 +230,7 @@ public class UnidadVentaDao {
 				"sum(i.cantidad * i.plato.precioVenta)");
 	}
 
-	public Plato traerPlatoEstrellaPorRentabilidad(long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
-		return traerPlatoEstrellaPorImporte(idUnidadVenta, fechaDesde, fechaHasta,
-				"sum(i.cantidad * (i.plato.precioVenta - i.plato.costoProduccion))");
-	}
+
 
 	private Plato traerPlatoEstrellaPorImporte(long idUnidadVenta, LocalDateTime fechaDesde,
 			LocalDateTime fechaHasta, String expresion) {
