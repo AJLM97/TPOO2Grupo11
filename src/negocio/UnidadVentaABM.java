@@ -1,6 +1,7 @@
 package negocio;
 
 import java.util.List;
+import java.time.LocalDateTime;
 
 import dao.UnidadVentaDao;
 import datos.Empleado;
@@ -61,6 +62,38 @@ public class UnidadVentaABM {
 			throw new IllegalArgumentException("La unidad de venta no puede ser null");
 		}
 		return platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
+	}
+
+	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+		return dao.traerPlatoEstrella(idUnidadVenta, fechaDesde, fechaHasta);
+	}
+
+	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) {
+		return dao.traerPlatoEstrellaDeFestival(idFestival, idUnidadVenta, fechaDesde);
+	}
+
+	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) {
+		return dao.traerPlatoEstrellaConCantidadMinima(idUnidadVenta, cantidadMinima, fechaDesde);
+	}
+
+	public Plato traerPlatoEstrella(long idFestival, long idUnidadVenta,
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+		return dao.traerPlatoEstrella(idFestival, idUnidadVenta, fechaDesde, fechaHasta);
+	}
+
+	public List<Plato> traerRankingPlatos(long idUnidadVenta, LocalDateTime fechaDesde,
+			LocalDateTime fechaHasta) {
+		return dao.traerRankingPlatos(idUnidadVenta, fechaDesde, fechaHasta);
+	}
+
+	public Plato traerPlatoEstrellaPorRecaudacion(long idUnidadVenta,
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+		return dao.traerPlatoEstrellaPorRecaudacion(idUnidadVenta, fechaDesde, fechaHasta);
+	}
+
+	public Plato traerPlatoEstrellaPorRentabilidad(long idUnidadVenta,
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+		return dao.traerPlatoEstrellaPorRentabilidad(idUnidadVenta, fechaDesde, fechaHasta);
 	}
 
 	public List<UnidadVenta> traerUnidadVenta() {
