@@ -347,7 +347,7 @@ public class TestInicializar {
 		}
 
         try {
-            long idPlato = platoABM.agregar("Pizza de calabresa", 1700, 720);
+            long idPlato = platoABM.agregar("Pizza de calabresa", 3000, 720);
             System.out.printf("Id Plato: %d", idPlato);
             platoQ = platoABM.traerPlato(idPlato);
         } catch(Exception e) {

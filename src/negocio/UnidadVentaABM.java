@@ -53,41 +53,41 @@ public class UnidadVentaABM {
 		return aux;
 	}
 
-	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) {
+	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) throws Exception {
 		return dao.platoEstrellaDeUnidadVenta(idUnidadVenta);
 	}
 
-	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) {
+	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) throws Exception {
 		if (unidadVenta == null) {
 			throw new IllegalArgumentException("La unidad de venta no puede ser null");
 		}
 		return platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
 	}
 
-	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		return dao.traerPlatoEstrella(idUnidadVenta, fechaDesde, fechaHasta);
 	}
 
-	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) {
+	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) throws Exception {
 		return dao.traerPlatoEstrellaDeFestival(idFestival, idUnidadVenta, fechaDesde);
 	}
 
-	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) {
+	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) throws Exception {
 		return dao.traerPlatoEstrellaConCantidadMinima(idUnidadVenta, cantidadMinima, fechaDesde);
 	}
 
 	public Plato traerPlatoEstrella(long idFestival, long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		return dao.traerPlatoEstrella(idFestival, idUnidadVenta, fechaDesde, fechaHasta);
 	}
 
 	public List<Plato> traerRankingPlatos(long idUnidadVenta, LocalDateTime fechaDesde,
-			LocalDateTime fechaHasta) {
+			LocalDateTime fechaHasta) throws Exception {
 		return dao.traerRankingPlatos(idUnidadVenta, fechaDesde, fechaHasta);
 	}
 
 	public Plato traerPlatoEstrellaPorRecaudacion(long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		return dao.traerPlatoEstrellaPorRecaudacion(idUnidadVenta, fechaDesde, fechaHasta);
 	}
 

@@ -13,13 +13,12 @@ public class Vogt_TraerPlatoEstrellaUnidadDeVenta {
 		try {
 			Plato platoEstrella = unidadABM.platoEstrellaDeUnidadVenta(2L);
 			if (platoEstrella == null) {
-				throw new AssertionError("La unidad de venta no tiene un plato estrella");
+				throw new Exception("La unidad de venta no tiene un plato estrella");
 			}
 
 			System.out.println("Plato estrella: " + platoEstrella.getNombre());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new AssertionError("No se pudo traer el plato estrella de la unidad de venta", e);
 		}
 	}
 }

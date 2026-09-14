@@ -127,7 +127,7 @@ public class UnidadVentaDao {
 		return objeto;
 	}
 
-	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) {
+	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) throws Exception {
 		Plato plato = null;
 		try {
 			iniciaOperacion();
@@ -149,7 +149,7 @@ public class UnidadVentaDao {
 		return plato;
 	}
 
-	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		return traerPlatoEstrella("p.unidad.idUnidadVenta = :idUnidadVenta "
 				+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta",
 				query -> query.setParameter("idUnidadVenta", idUnidadVenta)
@@ -157,7 +157,7 @@ public class UnidadVentaDao {
 						.setParameter("fechaHasta", fechaHasta));
 	}
 
-	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) {
+	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) throws Exception {
 		return traerPlatoEstrella("p.unidad.festival.idFestival = :idFestival "
 				+ "and p.unidad.idUnidadVenta = :idUnidadVenta "
 				+ "and p.fechaTransaccion >= :fechaDesde",
@@ -166,7 +166,7 @@ public class UnidadVentaDao {
 						.setParameter("fechaDesde", fechaDesde));
 	}
 
-	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) {
+	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) throws Exception {
 		return traerPlatoEstrella("p.unidad.idUnidadVenta = :idUnidadVenta "
 				+ "and p.fechaTransaccion >= :fechaDesde "
 				+ "and i.plato in (select i2.plato from ItemPedido i2 "
@@ -179,7 +179,7 @@ public class UnidadVentaDao {
 	}
 
 	public Plato traerPlatoEstrella(long idFestival, long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		return traerPlatoEstrella("p.unidad.festival.idFestival = :idFestival "
 				+ "and p.unidad.idUnidadVenta = :idUnidadVenta "
 				+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta",
@@ -189,7 +189,7 @@ public class UnidadVentaDao {
 						.setParameter("fechaHasta", fechaHasta));
 	}
 
-	private Plato traerPlatoEstrella(String filtro, java.util.function.UnaryOperator<org.hibernate.query.Query<Plato>> parametros) {
+	private Plato traerPlatoEstrella(String filtro, java.util.function.UnaryOperator<org.hibernate.query.Query<Plato>> parametros) throws Exception {
 		try {
 			iniciaOperacion();
 			org.hibernate.query.Query<Plato> query = session.createQuery(
@@ -204,7 +204,7 @@ public class UnidadVentaDao {
 		}
 	}
 
-	public List<Plato> traerRankingPlatos(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+	public List<Plato> traerRankingPlatos(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		try {
 			iniciaOperacion();
 			return session.createQuery(
@@ -225,7 +225,7 @@ public class UnidadVentaDao {
 	}
 
 	public Plato traerPlatoEstrellaPorRecaudacion(long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		return traerPlatoEstrellaPorImporte(idUnidadVenta, fechaDesde, fechaHasta,
 				"sum(i.cantidad * i.plato.precioVenta)");
 	}
@@ -233,7 +233,7 @@ public class UnidadVentaDao {
 
 
 	private Plato traerPlatoEstrellaPorImporte(long idUnidadVenta, LocalDateTime fechaDesde,
-			LocalDateTime fechaHasta, String expresion) {
+			LocalDateTime fechaHasta, String expresion) throws Exception {
 		try {
 			iniciaOperacion();
 			return session.createQuery(
