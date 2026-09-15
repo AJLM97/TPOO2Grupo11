@@ -157,38 +157,6 @@ public class UnidadVentaDao {
 						.setParameter("fechaHasta", fechaHasta));
 	}
 
-	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) throws Exception {
-		return traerPlatoEstrella("p.unidad.festival.idFestival = :idFestival "
-				+ "and p.unidad.idUnidadVenta = :idUnidadVenta "
-				+ "and p.fechaTransaccion >= :fechaDesde",
-				query -> query.setParameter("idFestival", idFestival)
-						.setParameter("idUnidadVenta", idUnidadVenta)
-						.setParameter("fechaDesde", fechaDesde));
-	}
-
-	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) throws Exception {
-		return traerPlatoEstrella("p.unidad.idUnidadVenta = :idUnidadVenta "
-				+ "and p.fechaTransaccion >= :fechaDesde "
-				+ "and i.plato in (select i2.plato from ItemPedido i2 "
-				+ "join i2.pedido p2 where p2.unidad.idUnidadVenta = :idUnidadVenta2 "
-				+ "group by i2.plato having sum(i2.cantidad) >= :cantidadMinima)",
-				query -> query.setParameter("idUnidadVenta", idUnidadVenta)
-						.setParameter("fechaDesde", fechaDesde)
-						.setParameter("idUnidadVenta2", idUnidadVenta)
-						.setParameter("cantidadMinima", cantidadMinima));
-	}
-
-	public Plato traerPlatoEstrella(long idFestival, long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		return traerPlatoEstrella("p.unidad.festival.idFestival = :idFestival "
-				+ "and p.unidad.idUnidadVenta = :idUnidadVenta "
-				+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta",
-				query -> query.setParameter("idFestival", idFestival)
-						.setParameter("idUnidadVenta", idUnidadVenta)
-						.setParameter("fechaDesde", fechaDesde)
-						.setParameter("fechaHasta", fechaHasta));
-	}
-
 	private Plato traerPlatoEstrella(String filtro, java.util.function.UnaryOperator<org.hibernate.query.Query<Plato>> parametros) throws Exception {
 		try {
 			iniciaOperacion();
@@ -197,26 +165,6 @@ public class UnidadVentaDao {
 					+ " group by i.plato order by sum(i.cantidad) desc, i.plato.idPlato asc",
 					Plato.class);
 			return parametros.apply(query).setMaxResults(1).uniqueResult();
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-	}
-
-	public List<Plato> traerRankingPlatos(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		try {
-			iniciaOperacion();
-			return session.createQuery(
-					"select i.plato from ItemPedido i join i.pedido p "
-					+ "where p.unidad.idUnidadVenta = :idUnidadVenta "
-					+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta "
-					+ "group by i.plato order by sum(i.cantidad) desc, i.plato.idPlato asc",
-					Plato.class)
-					.setParameter("idUnidadVenta", idUnidadVenta)
-					.setParameter("fechaDesde", fechaDesde)
-					.setParameter("fechaHasta", fechaHasta)
-					.setMaxResults(3).list();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();

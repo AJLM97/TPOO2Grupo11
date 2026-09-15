@@ -75,48 +75,6 @@ public class UnidadVentaABM {
 		return plato;
 	}
 
-	public Plato traerPlatoEstrellaDeFestival(Festival festival, UnidadVenta unidadVenta, LocalDateTime fechaDesde) throws Exception {
-		if (festival == null || unidadVenta == null) {
-			throw new IllegalArgumentException("El festival y la unidad de venta no pueden ser null");
-		}
-		Plato plato = dao.traerPlatoEstrellaDeFestival(festival.getIdFestival(), unidadVenta.getIdUnidadVenta(), fechaDesde);
-		if (plato == null) {
-			throw new Exception("No se encontro el plato estrella del festival");
-		}
-		return plato;
-	}
-
-	public Plato traerPlatoEstrellaConCantidadMinima(UnidadVenta unidadVenta, long cantidadMinima, LocalDateTime fechaDesde) throws Exception {
-		if (unidadVenta == null) {
-			throw new IllegalArgumentException("La unidad de venta no puede ser null");
-		}
-		Plato plato = dao.traerPlatoEstrellaConCantidadMinima(unidadVenta.getIdUnidadVenta(), cantidadMinima, fechaDesde);
-		if (plato == null) {
-			throw new Exception("No se encontro un plato con la cantidad minima");
-		}
-		return plato;
-	}
-
-	public Plato traerPlatoEstrella(Festival festival, UnidadVenta unidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		if (festival == null || unidadVenta == null) {
-			throw new IllegalArgumentException("El festival y la unidad de venta no pueden ser null");
-		}
-		Plato plato = dao.traerPlatoEstrella(festival.getIdFestival(), unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
-		if (plato == null) {
-			throw new Exception("No se encontro el plato estrella del festival entre fechas");
-		}
-		return plato;
-	}
-
-	public List<Plato> traerRankingPlatos(UnidadVenta unidadVenta, LocalDateTime fechaDesde,
-			LocalDateTime fechaHasta) throws Exception {
-		if (unidadVenta == null) {
-			throw new IllegalArgumentException("La unidad de venta no puede ser null");
-		}
-		return dao.traerRankingPlatos(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
-	}
-
 	public Plato traerPlatoEstrellaPorRecaudacion(UnidadVenta unidadVenta,
 			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		if (unidadVenta == null) {
