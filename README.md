@@ -26,8 +26,8 @@ Este software permite gestionar los festivales temáticos de "Epicentro Gourmet"
 - **src/test/Ledesma_TestTraerUnidadVentaQueMasRecaudo.java**
     Este tres traerá a la unidad de venta que más recaudó en un festival.
 - **src/test/Ledesma_TraerPlatoMasRentableDeUnidadVenta.java**
-    Este test traerá al plato` que más resultó rentable de una unidad de venta.
-    `rentabilidad = (precio de venta - costo de producción) * unidades vendidas`
+    Este test traerá al plato que más resultó rentable de una unidad de venta.
+    rentabilidad = (precio de venta - costo de producción) * unidades vendidas
 ## ✨ Test de Vogt, Thomas Gebhard**
 - **src/test/Vogt_TraerPlatoEstrellaPorRecaudacion.java**
     Este test traerá al plato que más dinero recaudó entre una fecha inicial y una fecha final de una unidad de venta.
