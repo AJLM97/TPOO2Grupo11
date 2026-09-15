@@ -36,7 +36,7 @@ public class PlatoABM {
 		dao.eliminar(aux);
 	}
 	
-	public Plato traerPlato(long idPlato) {
+	public Plato traer(long idPlato) {
 		Plato aux = dao.traer(idPlato);
 		return aux;
 	}

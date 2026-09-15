@@ -27,7 +27,18 @@ public class HibernateUtil {
 					registryBuilder.configure(configFile);
 				}
 				StandardServiceRegistry standardRegistry = registryBuilder.build();
-				Metadata metaData = new MetadataSources(standardRegistry).getMetadataBuilder().build();
+				MetadataSources metadataSources = new MetadataSources(standardRegistry);
+				for (String mapping : new String[] {
+						"Empleado.hbm.xml", "Plato.hbm.xml", "Pedido.hbm.xml",
+						"ItemPedido.hbm.xml", "UnidadVenta.hbm.xml", "Festival.hbm.xml" }) {
+					String resource = "mapeos/" + mapping;
+					if (HibernateUtil.class.getClassLoader().getResource(resource) != null) {
+						metadataSources.addResource(resource);
+					} else {
+						metadataSources.addFile(new File("src/" + resource));
+					}
+				}
+				Metadata metaData = metadataSources.getMetadataBuilder().build();
 				sessionFactory = metaData.getSessionFactoryBuilder().build();
 			}
 			return sessionFactory;

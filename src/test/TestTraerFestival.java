@@ -10,7 +10,7 @@ public class TestTraerFestival {
 		
 		FestivalABM fAbm = FestivalABM.getInstancia();
 		
-		Festival festival = fAbm.traerFestival(1L); // Sabores del Sur
+		Festival festival = fAbm.traer(1L); // Sabores del Sur
 		
 		System.out.println("Festival ID " + festival.getIdFestival());
 		System.out.println(festival);

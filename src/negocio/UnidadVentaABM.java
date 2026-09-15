@@ -1,6 +1,7 @@
 package negocio;
 
 import java.util.List;
+import java.time.LocalDateTime;
 
 import dao.UnidadVentaDao;
 import datos.Empleado;
@@ -47,21 +48,46 @@ public class UnidadVentaABM {
 		dao.eliminar(aux);
 	}
 	
-	public UnidadVenta traerUnidadVenta(long idUnidadVenta) {
+	public UnidadVenta traer(long idUnidadVenta) {
 		UnidadVenta aux = dao.traer(idUnidadVenta);
 		return aux;
 	}
 
-	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) {
-		return dao.platoEstrellaDeUnidadVenta(idUnidadVenta);
-	}
-
-	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) {
+	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) throws Exception {
 		if (unidadVenta == null) {
 			throw new IllegalArgumentException("La unidad de venta no puede ser null");
 		}
-		return platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
+		Plato plato = dao.platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
+		if (plato == null) {
+			throw new Exception("La unidad de venta no tiene un plato estrella");
+		}
+		return plato;
 	}
+
+	public Plato traerPlatoEstrella(UnidadVenta unidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		Plato plato = dao.traerPlatoEstrella(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
+		if (plato == null) {
+			throw new Exception("No se encontro el plato estrella entre fechas");
+		}
+		return plato;
+	}
+
+	public Plato traerPlatoEstrellaPorRecaudacion(UnidadVenta unidadVenta,
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		Plato plato = dao.traerPlatoEstrellaPorRecaudacion(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
+		if (plato == null) {
+			throw new Exception("No se encontro el plato estrella por recaudacion");
+		}
+		return plato;
+	}
+
+
 
 	public List<UnidadVenta> traerUnidadVenta() {
 		return dao.traer();

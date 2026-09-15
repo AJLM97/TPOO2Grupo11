@@ -40,7 +40,7 @@ public class FestivalABM {
 		dao.eliminar(aux);
 	}
 	
-	public Festival traerFestival(long idFestival) {
+	public Festival traer(long idFestival) {
 		Festival aux = dao.traer(idFestival);
 		return aux;
 	}

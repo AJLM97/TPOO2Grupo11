@@ -48,7 +48,7 @@ public class EmpleadoABM {
         dao.eliminar(aux);
     }
 
-    public Empleado traerEmpleado(long idEmpleado) {
+    public Empleado traer(long idEmpleado) {
         return dao.traer(idEmpleado);
     }
 

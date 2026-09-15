@@ -37,7 +37,7 @@ public class PedidoABM {
 		dao.eliminar(aux);
 	}
 	
-	public Pedido traerPedido(long idPedido) {
+	public Pedido traer(long idPedido) {
 		return dao.traer(idPedido);
 	}
 

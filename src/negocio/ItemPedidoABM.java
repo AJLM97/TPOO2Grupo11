@@ -43,7 +43,7 @@ public class ItemPedidoABM {
 		dao.eliminar(aux);
 	}
 	
-	public ItemPedido traerItemPedido(ItemPedido itemPedido) {
+	public ItemPedido traer(ItemPedido itemPedido) {
 		ItemPedido aux = dao.traer(itemPedido);
 		return aux;
 	}
