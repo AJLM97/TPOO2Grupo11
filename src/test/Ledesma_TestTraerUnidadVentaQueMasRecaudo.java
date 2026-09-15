@@ -14,7 +14,7 @@ public class Ledesma_TestTraerUnidadVentaQueMasRecaudo {
 			FestivalABM fABM = FestivalABM.getInstancia();
 			UnidadVentaABM uABM = UnidadVentaABM.getInstancia();
 
-			Festival festivalA = fABM.traerFestival(1L);
+			Festival festivalA = fABM.traer(1L);
 			UnidadVenta unidadA = fABM.traerUnidadVentaQueMasRecaudo(festivalA);
 			double recaudacion = uABM.calcularRecaudacion(unidadA);
 	

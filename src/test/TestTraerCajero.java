@@ -12,7 +12,7 @@ public class TestTraerCajero {
 		
 		long idEmpleado = eABM.agregarCajero("Paula", "Alvarez", 46464646, LocalDate.of(2003, 5, 1), LocalDate.of(2021, 3, 5), 50, "Tarde", 7);
 		
-		Empleado e = eABM.traerEmpleado(idEmpleado);
+		Empleado e = eABM.traer(idEmpleado);
 
 		System.out.println("Cajero ID " + e.getIdEmpleado());
 		System.out.println(e);

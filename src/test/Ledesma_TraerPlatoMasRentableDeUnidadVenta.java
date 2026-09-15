@@ -14,7 +14,7 @@ public class Ledesma_TraerPlatoMasRentableDeUnidadVenta {
 			UnidadVentaABM uABM = UnidadVentaABM.getInstancia();
             PlatoABM pABM = PlatoABM.getInstancia();
 
-			UnidadVenta unidadA = uABM.traerUnidadVenta(2L);
+			UnidadVenta unidadA = uABM.traer(2L);
             Plato platoA = uABM.traerPlatoMasRentable(unidadA);
             long cantidad = pABM.traerCantidadDeVecesVendido(platoA);
             double costos = platoA.getCostoProduccion() * cantidad;

@@ -12,7 +12,7 @@ public class Leal_TestTraerEmpleadoMasAntiguo {
 		
 		UnidadVentaABM uABM = UnidadVentaABM.getInstancia();
 			
-		UnidadVenta puesto = uABM.traerUnidadVenta(1L);
+		UnidadVenta puesto = uABM.traer(1L);
 
 	    Empleado masAntiguo = uABM.traerEmpleadoMasAntiguo(puesto);
 

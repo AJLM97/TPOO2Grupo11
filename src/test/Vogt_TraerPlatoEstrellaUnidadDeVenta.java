@@ -1,6 +1,7 @@
 package test;
 
 import datos.Plato;
+import datos.UnidadVenta;
 import negocio.UnidadVentaABM;
 
 public class Vogt_TraerPlatoEstrellaUnidadDeVenta {
@@ -11,11 +12,8 @@ public class Vogt_TraerPlatoEstrellaUnidadDeVenta {
 		UnidadVentaABM unidadABM = UnidadVentaABM.getInstancia();
 
 		try {
-			Plato platoEstrella = unidadABM.platoEstrellaDeUnidadVenta(2L);
-			if (platoEstrella == null) {
-				throw new Exception("La unidad de venta no tiene un plato estrella");
-			}
-
+			UnidadVenta unidadVenta = unidadABM.traer(2L);
+			Plato platoEstrella = unidadABM.platoEstrellaDeUnidadVenta(unidadVenta);
 			System.out.println("Plato estrella: " + platoEstrella.getNombre());
 		} catch (Exception e) {
 			e.printStackTrace();

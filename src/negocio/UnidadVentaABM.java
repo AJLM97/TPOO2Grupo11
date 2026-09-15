@@ -48,47 +48,85 @@ public class UnidadVentaABM {
 		dao.eliminar(aux);
 	}
 	
-	public UnidadVenta traerUnidadVenta(long idUnidadVenta) {
+	public UnidadVenta traer(long idUnidadVenta) {
 		UnidadVenta aux = dao.traer(idUnidadVenta);
 		return aux;
-	}
-
-	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) throws Exception {
-		return dao.platoEstrellaDeUnidadVenta(idUnidadVenta);
 	}
 
 	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) throws Exception {
 		if (unidadVenta == null) {
 			throw new IllegalArgumentException("La unidad de venta no puede ser null");
 		}
-		return platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
+		Plato plato = dao.platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
+		if (plato == null) {
+			throw new Exception("La unidad de venta no tiene un plato estrella");
+		}
+		return plato;
 	}
 
-	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		return dao.traerPlatoEstrella(idUnidadVenta, fechaDesde, fechaHasta);
+	public Plato traerPlatoEstrella(UnidadVenta unidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		Plato plato = dao.traerPlatoEstrella(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
+		if (plato == null) {
+			throw new Exception("No se encontro el plato estrella entre fechas");
+		}
+		return plato;
 	}
 
-	public Plato traerPlatoEstrellaDeFestival(long idFestival, long idUnidadVenta, LocalDateTime fechaDesde) throws Exception {
-		return dao.traerPlatoEstrellaDeFestival(idFestival, idUnidadVenta, fechaDesde);
+	public Plato traerPlatoEstrellaDeFestival(Festival festival, UnidadVenta unidadVenta, LocalDateTime fechaDesde) throws Exception {
+		if (festival == null || unidadVenta == null) {
+			throw new IllegalArgumentException("El festival y la unidad de venta no pueden ser null");
+		}
+		Plato plato = dao.traerPlatoEstrellaDeFestival(festival.getIdFestival(), unidadVenta.getIdUnidadVenta(), fechaDesde);
+		if (plato == null) {
+			throw new Exception("No se encontro el plato estrella del festival");
+		}
+		return plato;
 	}
 
-	public Plato traerPlatoEstrellaConCantidadMinima(long idUnidadVenta, long cantidadMinima, LocalDateTime fechaDesde) throws Exception {
-		return dao.traerPlatoEstrellaConCantidadMinima(idUnidadVenta, cantidadMinima, fechaDesde);
+	public Plato traerPlatoEstrellaConCantidadMinima(UnidadVenta unidadVenta, long cantidadMinima, LocalDateTime fechaDesde) throws Exception {
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		Plato plato = dao.traerPlatoEstrellaConCantidadMinima(unidadVenta.getIdUnidadVenta(), cantidadMinima, fechaDesde);
+		if (plato == null) {
+			throw new Exception("No se encontro un plato con la cantidad minima");
+		}
+		return plato;
 	}
 
-	public Plato traerPlatoEstrella(long idFestival, long idUnidadVenta,
+	public Plato traerPlatoEstrella(Festival festival, UnidadVenta unidadVenta,
 			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		return dao.traerPlatoEstrella(idFestival, idUnidadVenta, fechaDesde, fechaHasta);
+		if (festival == null || unidadVenta == null) {
+			throw new IllegalArgumentException("El festival y la unidad de venta no pueden ser null");
+		}
+		Plato plato = dao.traerPlatoEstrella(festival.getIdFestival(), unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
+		if (plato == null) {
+			throw new Exception("No se encontro el plato estrella del festival entre fechas");
+		}
+		return plato;
 	}
 
-	public List<Plato> traerRankingPlatos(long idUnidadVenta, LocalDateTime fechaDesde,
+	public List<Plato> traerRankingPlatos(UnidadVenta unidadVenta, LocalDateTime fechaDesde,
 			LocalDateTime fechaHasta) throws Exception {
-		return dao.traerRankingPlatos(idUnidadVenta, fechaDesde, fechaHasta);
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		return dao.traerRankingPlatos(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
 	}
 
-	public Plato traerPlatoEstrellaPorRecaudacion(long idUnidadVenta,
+	public Plato traerPlatoEstrellaPorRecaudacion(UnidadVenta unidadVenta,
 			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		return dao.traerPlatoEstrellaPorRecaudacion(idUnidadVenta, fechaDesde, fechaHasta);
+		if (unidadVenta == null) {
+			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+		}
+		Plato plato = dao.traerPlatoEstrellaPorRecaudacion(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
+		if (plato == null) {
+			throw new Exception("No se encontro el plato estrella por recaudacion");
+		}
+		return plato;
 	}
 
 
