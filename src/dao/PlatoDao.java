@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Plato;
+import datos.UnidadVenta;
 
 public class PlatoDao {
 	private static Session session;
@@ -107,12 +108,14 @@ public class PlatoDao {
 		return lista;
 	}
 
-	public boolean existePlatoSinUnaUnidadAsignada(String nombre) throws HibernateException {
+	public boolean existePlatoEnUnidadVenta(String nombre, UnidadVenta unidad) throws HibernateException {
 		boolean resultado = false;
 		try {
 			iniciaOperacion();
-			Long count = (Long) session.createQuery("select count(p) from Plato p where p.unidad.idUnidadVenta is null and p.nombre = :nombre")
-					.setParameter("nombre", nombre).uniqueResult();
+			Long count = (Long) session.createQuery("select count(p) from Plato p where p.unidad.idUnidadVenta = :idUnidadVenta and p.nombre = :nombre")
+					.setParameter("idUnidadVenta", unidad.getIdUnidadVenta())
+					.setParameter("nombre", nombre)
+					.uniqueResult();
 			resultado = (count != null && count > 0);
 		} finally {
 			if (session != null && session.isOpen()) {

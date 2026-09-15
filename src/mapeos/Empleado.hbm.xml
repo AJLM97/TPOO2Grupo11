@@ -11,7 +11,7 @@
 		<!-- Atributos - Columnas -->
 		<property name="nombre" column="nombre" type="string" not-null="true"/>
 		<property name="apellido" column="apellido" type="string" not-null="true"/>
-		<property name="dni" column="dni" type="long" not-null="true"/>
+		<property name="dni" column="dni" type="long" not-null="true" unique="true"/>
 		<property name="fechNacimiento" column="fechNacimiento" type="java.time.LocalDate" not-null="true"/>
 		<property name="fechaIngreso" column="fechaIngreso" type="java.time.LocalDate" not-null="true"/>
 		<property name="sueldoBase" column="sueldoBase" type="double" not-null="true"/>

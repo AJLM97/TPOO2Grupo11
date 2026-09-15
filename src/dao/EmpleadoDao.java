@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Empleado;
+import datos.UnidadVenta;
 
 public class EmpleadoDao {
 	private static Session session;
@@ -95,6 +96,23 @@ public class EmpleadoDao {
 			session.close();
 		}
 		return lista;
+	}
+
+	public boolean existeEmpleadoEnUnidadVenta(long dni, UnidadVenta unidad) throws HibernateException {
+		boolean resultado = false;
+		try {
+			iniciaOperacion();
+			Long count = (Long) session.createQuery("select count(e) from Empleado e where e.unidad.idUnidadVenta = :idUnidadVenta and e.dni = :dni")
+					.setParameter("idUnidadVenta", unidad.getIdUnidadVenta())
+					.setParameter("dni", dni)
+					.uniqueResult();
+			resultado = (count != null && count > 0);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return resultado;
 	}
 	
 }

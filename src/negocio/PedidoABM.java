@@ -24,6 +24,9 @@ public class PedidoABM {
 	}
 
 	public int agregar(LocalDateTime fechaTransaccion, UnidadVenta unidad) throws Exception {
+		if(dao.existePedidoEnUnidadVenta(fechaTransaccion, unidad)) {
+			throw new Exception("Ya existe un Pedido con fecha " + fechaTransaccion + " en la unidad de venta " + unidad.getNombreComercial());
+		}
 		Pedido aux = new Pedido(fechaTransaccion, unidad);
 		return dao.agregar(aux);
 	}
@@ -45,8 +48,8 @@ public class PedidoABM {
 		return dao.traer();
 	}
 	
-	public Pedido traerPedidoYItemPedidos(Pedido pedido) {
-		return dao.traerPedidoYItems(pedido);
+	public Pedido traerPedidoYItemPedidos(long idPedido) {
+		return dao.traerPedidoYItems(idPedido);
 	}
 	
 	public ItemPedido agregarItemPedido(Pedido pedido, Plato plato, long cantidad) throws Exception {
@@ -56,14 +59,16 @@ public class PedidoABM {
 		if (pedido.isCerrado()) {
 			throw new Exception("No se pueden agregar items a un pedido cerrado");
 		}
-		ItemPedido itemPedido = pedido.traerItemPedidoPorPlato(plato);
+		Pedido pedidoPersistido = dao.traerPedidoYItems(pedido);
+		ItemPedido itemPedido = pedidoPersistido.traerItemPedidoPorPlato(plato);
 		if (itemPedido == null) {
 			itemPedido = new ItemPedido(plato, cantidad);
-			pedido.agregarItemPedido(itemPedido);
+			pedidoPersistido.agregarItemPedido(itemPedido);
 		} else {
 			itemPedido.setCantidad(itemPedido.getCantidad() + cantidad);
+			dao.actualizar(pedidoPersistido);
 		}
-		dao.actualizar(pedido);
+		dao.actualizar(pedidoPersistido);
 		return itemPedido;
 	}
 	

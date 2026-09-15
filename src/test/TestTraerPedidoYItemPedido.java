@@ -14,9 +14,7 @@ public class TestTraerPedidoYItemPedido {
 		PedidoABM peABM = PedidoABM.getInstancia();
 
 		try {
-			Pedido pedidoBase = peABM.traerPedido().get(0);
-			Pedido pedido = peABM.traerPedidoYItemPedidos(pedidoBase);
-			System.out.println("Pedido ID " + pedido.getIdPedido());
+			Pedido pedido = peABM.traerPedidoYItemPedidos(1L);
 			System.out.println(pedido);
 
 			Set<ItemPedido> items = pedido.getItems();

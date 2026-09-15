@@ -16,12 +16,11 @@ public abstract class UnidadVenta {
 	
 	public UnidadVenta() {}
 
-	public UnidadVenta(String nombreComercial, String codigo, double superficie, Empleado responsable, Festival festival) {
+	public UnidadVenta(String nombreComercial, String codigo, double superficie, Festival festival) {
 		super();
 		this.nombreComercial = nombreComercial;
 		this.codigo = codigo;
 		this.superficie = superficie;
-		this.responsable = responsable;
 		this.festival = festival;
 	}
 
@@ -88,19 +87,22 @@ public abstract class UnidadVenta {
 	protected void setPlatos(Set<Plato> platos) {
 		this.platos = platos;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(idUnidadVenta);
+		return Objects.hash(codigo);
 	}
 
-	
-	public boolean equals(UnidadVenta u) {
-		boolean igual = false;
-		if(u != null && this.codigo.equals(u.getCodigo())) {
-			igual = true;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
 		}
-		return igual;
+		if (!(obj instanceof UnidadVenta)) {
+			return false;
+		}
+		UnidadVenta other = (UnidadVenta) obj;
+		return Objects.equals(codigo, other.getCodigo());
 	}
 	
 	public boolean agregar(Plato plato) {
@@ -146,7 +148,7 @@ public abstract class UnidadVenta {
 	@Override
 	public String toString() {
 		return "idUnidadVenta=" + idUnidadVenta + ", nombreComercial=" + nombreComercial + ", codigo="
-				+ codigo + ", superficie=" + superficie + ", responsable=" + responsable.getNombre()  + " " + responsable.getApellido();
+				+ codigo + ", superficie=" + superficie;
 	}
 
 }

@@ -7,6 +7,7 @@ import dao.EmpleadoDao;
 import datos.Cajero;
 import datos.Cocinero;
 import datos.Empleado;
+import datos.UnidadVenta;
 
 public class EmpleadoABM {
 
@@ -23,19 +24,25 @@ public class EmpleadoABM {
     }
 
     public int agregarCajero(String nombre, String apellido, long dni,
-            LocalDate fechNacimiento, LocalDate fechaIngreso, double sueldoBase,
-            String turnoTrabajo, double plusAntiguedad) {
+            LocalDate fechNacimiento, LocalDate fechaIngreso, double sueldoBase, UnidadVenta unidad,
+            String turnoTrabajo, double plusAntiguedad) throws Exception {
+        if(dao.existeEmpleadoEnUnidadVenta(dni, unidad)) {
+			throw new Exception("Ya existe un Empleado con DNI " + dni + " en la unidad de venta " + unidad.getNombreComercial());
+		}
         Cajero aux = new Cajero(nombre, apellido, dni, fechNacimiento, fechaIngreso,
-                sueldoBase, turnoTrabajo, plusAntiguedad);
+                sueldoBase, unidad, turnoTrabajo, plusAntiguedad);
         return dao.agregar(aux);
 
     }
 
     public int agregarCocinero(String nombre, String apellido, long dni,
-            LocalDate fechNacimiento, LocalDate fechaIngreso, double sueldoBase,
-            long categoria, String especialidad, long porcentaje) {
+            LocalDate fechNacimiento, LocalDate fechaIngreso, double sueldoBase, UnidadVenta unidad,
+            long categoria, String especialidad, long porcentaje) throws Exception {
+        if(dao.existeEmpleadoEnUnidadVenta(dni, unidad)) {
+			throw new Exception("Ya existe un Empleado con DNI " + dni + " en la unidad de venta " + unidad.getNombreComercial());
+		}
         Cocinero aux = new Cocinero(nombre, apellido, dni, fechNacimiento, fechaIngreso,
-                sueldoBase, categoria, especialidad, porcentaje);
+                sueldoBase, unidad, categoria, especialidad, porcentaje);
         return dao.agregar(aux);
     }
 

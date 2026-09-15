@@ -85,7 +85,7 @@ public class Pedido {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fechaTransaccion, unidad);
+		return Objects.hash(idPedido);
 	}
 
 	@Override
@@ -97,8 +97,7 @@ public class Pedido {
 			return false;
 		}
 		Pedido other = (Pedido) obj;
-		return Objects.equals(fechaTransaccion, other.fechaTransaccion)
-				&& Objects.equals(unidad, other.unidad);
+		return Objects.equals(idPedido, other.idPedido);
 	}
 
 }

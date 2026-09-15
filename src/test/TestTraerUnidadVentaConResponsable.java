@@ -1,19 +1,20 @@
 package test;
 
-import java.util.List;
-
 import datos.UnidadVenta;
 import negocio.UnidadVentaABM;
 
 public class TestTraerUnidadVentaConResponsable {
 
 	public static void main(String[] args) {
-		
-		UnidadVentaABM unidad = UnidadVentaABM.getInstancia();
-		List<UnidadVenta> lst = unidad.traerUnidadVentaConResponsable();
-		
-		for(UnidadVenta u : lst) {
-			System.out.println(u.getNombreComercial() + " - Responsable: " + u.getResponsable());
+		System.out.println("=== TestTraerUnidadVentaConResponsable ===");
+				
+		try {
+			UnidadVentaABM uABM = UnidadVentaABM.getInstancia();
+			UnidadVenta unidad = uABM.traerUnidadVentaConResponsable(1L);
+			
+			System.out.println(unidad.getNombreComercial() + " - Responsable: " + unidad.getResponsable().getNombre() + " " + unidad.getResponsable().getApellido());
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 		
 	}

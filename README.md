@@ -16,5 +16,23 @@ Este software permite gestionar los festivales temáticos de "Epicentro Gourmet"
 	(Actualmente, la configuración utiliza el usuario `root` y la contraseña `root`).
 3. Ejecutar el archivo `src/test/TestInicializar.java` para cargar los datos iniciales.
 
-## ✨ Diagrama
+## 📑 Diagrama
 ![Diagrama](diagrama.png)
+
+## ✨ Test Complejos
+- **Leal, Arian Gabriel**
+    `src/test/Leal_TestTraerEmpleadoMasAntiguo.java`
+    Este test traerá al empleado más antiguo de una unidad de venta.
+- **Ledesma Miño, Alejandro Javier**
+    `src/test/Ledesma_TestTraerUnidadVentaQueMasRecaudo.java`
+    Este tres traerá a la unidad de venta que más recaudó en un festival.
+    `src/test/Ledesma_TraerPlatoMasRentableDeUnidadVenta.java`
+    Este test traerá al plato que más resultó rentable de una unidad de venta.
+    rentabilidad = (precio de venta - costo de producción) * unidades vendidas
+- **Vogt, Thomas Gebhard**
+    `src/test/Vogt_TraerPlatoEstrellaPorRecaudacion.java`
+    Este test traerá al plato que más dinero recaudó entre una fecha inicial y una fecha final de una unidad de venta.
+    `src/test/Vogt_TraerPlatoEstrellaUnidadDeVenta.java`
+    Este test tarea al plato que más veces fue comprado en una unidad de venta.
+    `src/test/Vogt_TraerPlatoEstrellaUnidadEntreFechas.java`
+    Este test traerá al plato que más veces fue comprado entre una fecha inicial y una fecha final de una unidad de venta.

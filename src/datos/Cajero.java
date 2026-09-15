@@ -9,8 +9,8 @@ public class Cajero extends Empleado {
 	public Cajero() {}
 
 	public Cajero(String nombre, String apellido, long dni, LocalDate fechNacimiento, LocalDate fechaIngreso,
-			double sueldoBase, String turnoTrabajo, double plusAntiguedad) {
-		super(nombre, apellido, dni, fechNacimiento, fechaIngreso, sueldoBase);
+			double sueldoBase, UnidadVenta unidad, String turnoTrabajo, double plusAntiguedad) {
+		super(nombre, apellido, dni, fechNacimiento, fechaIngreso, sueldoBase, unidad);
 		this.turnoTrabajo = turnoTrabajo;
 		this.plusAntiguedad = plusAntiguedad;
 	}

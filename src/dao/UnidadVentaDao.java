@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.Empleado;
+import datos.Festival;
 import datos.Plato;
 import datos.UnidadVenta;
 
@@ -110,8 +111,58 @@ public class UnidadVentaDao {
 		}
 		return lista;
 	}
+
+	public boolean existeUnidadVentaEnFestival(String codigo, Festival festival) throws HibernateException {
+		boolean resultado = false;
+		try {
+			iniciaOperacion();
+			Long count = (Long) session.createQuery("select count(u) from UnidadVenta u where u.festival.idFestival = :idFestival and u.codigo = :codigo")
+					.setParameter("idFestival", festival.getIdFestival())
+					.setParameter("codigo", codigo)
+					.uniqueResult();
+			resultado = (count != null && count > 0);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return resultado;
+	}
+
+	public boolean esEmpleadoDeUnidadVenta(UnidadVenta unidadVenta, Empleado empleado) throws HibernateException {
+		boolean resultado = false;
+		try {
+			iniciaOperacion();
+			Long count = (Long) session.createQuery("select count(e) from Empleado e where e.unidad.idUnidadVenta = :idUnidadVenta and e.idEmpleado = :idEmpleado")
+					.setParameter("idUnidadVenta", unidadVenta.getIdUnidadVenta())
+					.setParameter("idEmpleado", empleado.getIdEmpleado())
+					.uniqueResult();
+			resultado = (count != null && count > 0);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return resultado;
+	}
 	
-	public UnidadVenta traerUnidadYPlatos(long idUnidadVenta) {
+	public UnidadVenta traerUnidadVentaYStaff(long idUnidadVenta) {
+		UnidadVenta objeto = null;
+		try {
+			iniciaOperacion();
+			String hql = "from UnidadVenta u where u.idUnidadVenta =:idUnidadVenta";
+			objeto = (UnidadVenta) session.createQuery(hql).setParameter("idUnidadVenta", idUnidadVenta)
+					.uniqueResult();
+			Hibernate.initialize(objeto.getStaff());
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return objeto;
+	}
+	
+	public UnidadVenta traerUnidadVentaYPlatos(long idUnidadVenta) {
 		UnidadVenta objeto = null;
 		try {
 			iniciaOperacion();
@@ -178,8 +229,6 @@ public class UnidadVentaDao {
 				"sum(i.cantidad * i.plato.precioVenta)");
 	}
 
-
-
 	private Plato traerPlatoEstrellaPorImporte(long idUnidadVenta, LocalDateTime fechaDesde,
 			LocalDateTime fechaHasta, String expresion) throws Exception {
 		try {
@@ -200,79 +249,18 @@ public class UnidadVentaDao {
 			}
 		}
 	}
-
-	public boolean existePlatoEnUnidadVenta(long idPlato, long idUnidadVenta) {
-    Session session = null;
-    try {
-        session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createQuery("select count(p) from Plato p where p.unidad.idUnidadVenta = :idUnidadVenta and p.idPlato = :idPlato")
-			.setParameter("idUnidadVenta", idUnidadVenta)
-			.setParameter("idPlato", idPlato)
-			.uniqueResult();
-
-        return count != null && count > 0;
-    } finally {
-        if (session != null && session.isOpen()) {
-            session.close();
-        }
-    }
-}
-
-	public boolean existePlatoEnUnidadVenta(String nombre, long idUnidadVenta) {
-		boolean resultado = false;
-		try {
-			iniciaOperacion();
-			Long count = (Long) session.createQuery("select count(p) from Plato p where p.unidad.idUnidadVenta = :idUnidadVenta and p.nombre = :nombre")
-				.setParameter("idUnidadVenta", idUnidadVenta)
-				.setParameter("nombre", nombre)
-				.uniqueResult();
-
-			resultado = (count != null && count > 0);
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return resultado;
-	}
-
-	public boolean existePlatoSinUnidadVenta(long idPlato) {
-		boolean resultado = false;
-		try {
-			iniciaOperacion();
-			Long count = (Long) session.createQuery("select count(p) from Plato p where p.unidad is null and p.idPlato = :idPlato")
-				.setParameter("idPlato", idPlato)
-				.uniqueResult();
-
-			resultado = (count != null && count > 0);
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return resultado;
-	}
 	
-	public boolean agregarPlato(long idPlato, long idUnidadVenta) throws HibernateException {
-		boolean resultado = false;
+	public UnidadVenta traerUnidadVentaConResponsable(long idUnidadVenta) throws HibernateException{
+		UnidadVenta objeto = null;
 		try {
 			iniciaOperacion();
-			Plato plato = (Plato) session.get(Plato.class, idPlato);
-			UnidadVenta unidadVenta = (UnidadVenta) session.get(UnidadVenta.class, idUnidadVenta);
-			unidadVenta.agregar(plato);
-			plato.setUnidad(unidadVenta);
-			session.update(plato);
-			tx.commit();
-			resultado = true;
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-			throw he;
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
+			String hql = "from UnidadVenta u inner join fetch u.responsable where u.idUnidadVenta =:idUnidadVenta";
+					objeto = (UnidadVenta) session.createQuery(hql).setParameter("idUnidadVenta", idUnidadVenta)
+							.setMaxResults(1).uniqueResult();
+		}finally {
+			session.close();
 		}
-		return resultado;
+		return objeto;
 	}
 	
 	public List<UnidadVenta> traerUnidadVentaConResponsable() throws HibernateException{
@@ -285,34 +273,6 @@ public class UnidadVentaDao {
 			session.close();
 		}
 		return lst;
-	}
-	
-	public boolean agregarStaffAUnidadVenta(UnidadVenta unidadVenta, Empleado empleado)throws HibernateException {
-		boolean agregado = false;
-		try {
-			iniciaOperacion();
-
-	        UnidadVenta uv = (UnidadVenta) session.merge(unidadVenta);
-	        Empleado emp = (Empleado) session.merge(empleado);
-
-	        agregado = uv.agregar(emp);
-
-	        if (agregado) {
-	            emp.setUnidad(uv); 
-
-	            session.update(emp);
-	            
-	            tx.commit();
-			}
-			
-		} catch (HibernateException he) {
-			manejaExcepcion(he);
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return agregado;
 	}
 	
 	public Empleado traerEmpleadoMasAntiguoPorUnidadVenta(UnidadVenta unidadVenta)throws HibernateException {

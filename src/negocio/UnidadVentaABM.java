@@ -25,16 +25,21 @@ public class UnidadVentaABM {
 		return abm;
 	}
 
-	public int agregarFoodTruck(String nombreComercial, String codigo, double superficie, Empleado responsable, Festival festival,
-			String patente, boolean conexionElectrica) {
-		FoodTruck aux = new FoodTruck(nombreComercial, codigo, superficie, responsable, festival,
-				patente, conexionElectrica);
+	public int agregarFoodTruck(String nombreComercial, String codigo, double superficie, Festival festival,
+			String patente, boolean conexionElectrica) throws Exception {
+		if(dao.existeUnidadVentaEnFestival(codigo, festival)) {
+			throw new Exception("Ya existe una Unidad de Venta con el código " + codigo + " en el festival " + festival.getNombre());
+		}
+		FoodTruck aux = new FoodTruck(nombreComercial, codigo, superficie, festival, patente, conexionElectrica);
 		return dao.agregar(aux);
 	}
 	
-	public int agregarPuestoDesarmable(String nombreComercial, String codigo, double superficie, Empleado responsable,
-			Festival festival, long cantidadDeCarpas, long tiempoMontaje) {
-		PuestoDesarmable aux = new PuestoDesarmable(nombreComercial, codigo, superficie, responsable,
+	public int agregarPuestoDesarmable(String nombreComercial, String codigo, double superficie,
+			Festival festival, long cantidadDeCarpas, long tiempoMontaje) throws Exception {
+		if(dao.existeUnidadVentaEnFestival(codigo, festival)) {
+			throw new Exception("Ya existe una Unidad de Venta con el código " + codigo + " en el festival " + festival.getNombre());
+		}
+		PuestoDesarmable aux = new PuestoDesarmable(nombreComercial, codigo, superficie,
 				festival, cantidadDeCarpas, tiempoMontaje);
 		return dao.agregar(aux);
 	}
@@ -51,6 +56,24 @@ public class UnidadVentaABM {
 	public UnidadVenta traer(long idUnidadVenta) {
 		UnidadVenta aux = dao.traer(idUnidadVenta);
 		return aux;
+	}
+	
+	public UnidadVenta traerUnidadVentaYStaff(long idUnidadVenta) {
+		UnidadVenta aux = dao.traerUnidadVentaYStaff(idUnidadVenta);
+		return aux;
+	}
+	
+	public UnidadVenta traerUnidadVentaYPlatos(long idUnidadVenta) {
+		UnidadVenta aux = dao.traerUnidadVentaYPlatos(idUnidadVenta);
+		return aux;
+	}
+
+	public void asignarResponsable(UnidadVenta unidadVenta, Empleado responsable) throws Exception {
+		if (!dao.esEmpleadoDeUnidadVenta(unidadVenta, responsable)) {
+			throw new Exception("El responsable no pertenece a la unidad de venta");
+		}
+		unidadVenta.setResponsable(responsable);
+		dao.actualizar(unidadVenta);
 	}
 
 	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) throws Exception {
@@ -87,36 +110,20 @@ public class UnidadVentaABM {
 		return plato;
 	}
 
-
-
 	public List<UnidadVenta> traerUnidadVenta() {
 		return dao.traer();
 	}
-
-	public boolean existePlatoEnUnidadVenta(UnidadVenta unidad, Plato plato) {
-		return unidad.getPlatos().contains(plato);
-	}
 	
-	public void agregarPlatoAUnidadVenta(UnidadVenta unidad, Plato plato) throws Exception {
-		if(existePlatoEnUnidadVenta(unidad, plato)) {
-			throw new Exception("El plato ya existe en la unidad de venta");
-		}
-		unidad.agregar(plato);
-		plato.setUnidad(unidad);
-		dao.actualizar(unidad);
+	public UnidadVenta traerUnidadVentaConResponsable(long idUnidadVenta) {
+		return dao.traerUnidadVentaConResponsable(idUnidadVenta);
 	}
 	
 	public List<UnidadVenta> traerUnidadVentaConResponsable() {
-		UnidadVentaDao dao = UnidadVentaDao.getInstance();
 		return dao.traerUnidadVentaConResponsable();
 	}
 	
-	public boolean agregarStaff(UnidadVenta unidadVenta, Empleado empleado) {
-		return dao.agregarStaffAUnidadVenta(unidadVenta, empleado);
-	}
-	
-	public Empleado traerEmpleadoMasAntiguo(UnidadVenta unidadventa) {
-		return dao.traerEmpleadoMasAntiguoPorUnidadVenta(unidadventa);
+	public Empleado traerEmpleadoMasAntiguo(UnidadVenta unidadVenta) {
+		return dao.traerEmpleadoMasAntiguoPorUnidadVenta(unidadVenta);
 	}
 
 	public double calcularRecaudacion(UnidadVenta unidadVenta) {

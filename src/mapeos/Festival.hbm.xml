@@ -9,7 +9,7 @@
             <generator class="identity"/>
         </id>
 		<!-- Atributos - Columnas -->
-        <property name="nombre" column="nombre" type="string" not-null="true"/>
+        <property name="nombre" column="nombre" type="string" not-null="true" unique="true"/>
         <property name="temporada" column="temporada" type="string" not-null="true"/>
         <property name="fechInicio" column="fechInicio" type="java.time.LocalDate" not-null="true"/>
         <property name="fechaFin" column="fechaFin" type="java.time.LocalDate" not-null="true"/>

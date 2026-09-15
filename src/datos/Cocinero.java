@@ -10,8 +10,8 @@ public class Cocinero extends Empleado {
 	public Cocinero() {}
 
 	public Cocinero(String nombre, String apellido, long dni, LocalDate fechNacimiento, LocalDate fechaIngreso,
-			double sueldoBase, long categoria, String especialidad, long porcentaje) {
-		super(nombre, apellido, dni, fechNacimiento, fechaIngreso, sueldoBase);
+			double sueldoBase, UnidadVenta unidad, long categoria, String especialidad, long porcentaje) {
+		super(nombre, apellido, dni, fechNacimiento, fechaIngreso, sueldoBase, unidad);
 		this.categoria = categoria;
 		this.especialidad = especialidad;
 		this.porcentaje = porcentaje;

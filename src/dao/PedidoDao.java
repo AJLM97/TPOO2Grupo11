@@ -5,11 +5,14 @@ import java.util.List;
 
 import java.util.HashSet;
 
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import datos.ItemPedido;
 import datos.Pedido;
+import datos.UnidadVenta;
 
 public class PedidoDao {
 	private static Session session;
@@ -95,21 +98,40 @@ public class PedidoDao {
 		}
 		return lista;
 	}
+
+	public boolean existePedidoEnUnidadVenta(LocalDateTime fechaTransaccion, UnidadVenta unidad) throws HibernateException {
+		boolean resultado = false;
+		try {
+			iniciaOperacion();
+			Long count = (Long) session.createQuery("select count(p) from Pedido p where p.unidad.idUnidadVenta = :idUnidadVenta and p.fechaTransaccion = :fechaTransaccion")
+					.setParameter("idUnidadVenta", unidad.getIdUnidadVenta())
+					.setParameter("fechaTransaccion", fechaTransaccion)
+					.uniqueResult();
+			resultado = (count != null && count > 0);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return resultado;
+	}
 	
-	public Pedido traerPedidoYItems(Pedido pedido) {
+	public Pedido traerPedidoYItems(Pedido pedido) throws HibernateException {
+		return traerPedidoYItems(pedido.getIdPedido());
+	}
+	
+	public Pedido traerPedidoYItems(long idPedido) throws HibernateException {
 		Pedido objeto = null;
 		try {
 			iniciaOperacion();
-			objeto = (Pedido) session.createQuery(
-					"select distinct p from Pedido p " +
-					"left join fetch p.items i " +
-					"left join fetch i.plato pl " +
-					"where p.idPedido=:idPedido",
-					Pedido.class)
-				.setParameter("idPedido", pedido.getIdPedido())
-				.uniqueResult();
+			String hql = "from Pedido p where p.idPedido =:idPedido";
+			objeto = (Pedido) session.createQuery(hql).setParameter("idPedido", idPedido)
+					.uniqueResult();
+			Hibernate.initialize(objeto.getItems());
 		} finally {
-			session.close();
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
 		}
 		return objeto;
 	}

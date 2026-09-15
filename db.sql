@@ -87,6 +87,7 @@ CREATE TABLE `empleado` (
   `sueldoBase` double NOT NULL,
   `idUnidadVenta` bigint DEFAULT NULL,
   PRIMARY KEY (`idEmpleado`),
+  UNIQUE KEY `UK_anilfn0t89ht43r8n8lthr5b6` (`dni`),
   KEY `FK1u64hsk5prfmajlq8uj6r3mmg` (`idUnidadVenta`),
   CONSTRAINT `FK1u64hsk5prfmajlq8uj6r3mmg` FOREIGN KEY (`idUnidadVenta`) REFERENCES `unidadventa` (`idUnidadVenta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -118,7 +119,8 @@ CREATE TABLE `festival` (
   `costoSuperficie` double NOT NULL,
   `costoMontaje` double NOT NULL,
   `plusElectricidad` double NOT NULL,
-  PRIMARY KEY (`idFestival`)
+  PRIMARY KEY (`idFestival`),
+  UNIQUE KEY `UK_sqsia62xd54vbnd8atpe4wjic` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -225,12 +227,12 @@ DROP TABLE IF EXISTS `plato`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `plato` (
   `idPlato` bigint NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
   `precioVenta` double NOT NULL,
   `costoProduccion` double NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `idUnidadVenta` bigint DEFAULT NULL,
+  `idUnidadVenta` bigint NOT NULL,
   PRIMARY KEY (`idPlato`),
-  UNIQUE KEY `UK_6vtcey8hh05sisdfu87pw7pg8` (`nombre`,`idUnidadVenta`),
+  UNIQUE KEY `UK_rd2kuqgarl3hvul9kpr864dmh` (`nombre`),
   KEY `FKgvo6so3wrxwrw3mylc664lvih` (`idUnidadVenta`),
   CONSTRAINT `FKgvo6so3wrxwrw3mylc664lvih` FOREIGN KEY (`idUnidadVenta`) REFERENCES `unidadventa` (`idUnidadVenta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -242,7 +244,7 @@ CREATE TABLE `plato` (
 
 LOCK TABLES `plato` WRITE;
 /*!40000 ALTER TABLE `plato` DISABLE KEYS */;
-INSERT INTO `plato` VALUES (1,950,420,'Choripán',1),(2,1400,620,'Hamburguesa doble',1),(3,1550,700,'Milanesa napolitana',1),(4,250,105,'Empanada de carne',1),(5,280,130,'Taco de pollo',1),(6,1800,900,'Lomito con papas',1),(7,1450,680,'Pizza fugazzeta',2),(8,1200,540,'Sandwich de milanesa',1),(9,1050,470,'Wrap de pollo',1),(10,11000,470,'Quesadilla de carne',1),(11,600,220,'Churros con dulce de leche',1),(12,1400,600,'Pizza margarita',2),(13,1300,610,'Ensalada César con pollo',1),(14,1500,650,'Pizza napolitana',2),(15,520,200,'Nigiri',3),(16,380,140,'Tempura',3),(17,1700,720,'Pizza de calabresa',2),(18,1850,780,'Pizza cuatro quesos',2),(19,980,360,'Sashimi de salmón',3),(20,1150,430,'Roll de atún',3);
+INSERT INTO `plato` VALUES (1,'Choripán',950,420,1),(2,'Hamburguesa doble',1400,620,1),(3,'Milanesa napolitana',1550,700,1),(4,'Empanada de carne',250,105,1),(5,'Taco de pollo',280,130,1),(6,'Lomito con papas',1800,900,1),(7,'Pizza fugazzeta',1450,680,1),(8,'Sandwich de milanesa',1200,540,1),(9,'Wrap de pollo',1050,470,1),(10,'Quesadilla de carne',11000,470,1),(11,'Churros con dulce de leche',600,220,1),(12,'Pizza margarita',1400,600,2),(13,'Ensalada César con pollo',1300,610,2),(14,'Pizza napolitana',1500,650,2),(15,'Nigiri',520,200,2),(16,'Tempura',380,140,2),(17,'Pizza de calabresa',3000,720,3),(18,'Pizza cuatro quesos',1850,780,3),(19,'Sashimi de salmón',980,360,3),(20,'Roll de atún',1150,430,3);
 /*!40000 ALTER TABLE `plato` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +287,7 @@ CREATE TABLE `unidadventa` (
   `codigo` varchar(255) NOT NULL,
   `superficie` double NOT NULL,
   `idFestival` bigint NOT NULL,
-  `idResponsable` bigint NOT NULL,
+  `idResponsable` bigint DEFAULT NULL,
   PRIMARY KEY (`idUnidadVenta`),
   UNIQUE KEY `UK_lgwjqftlphhpr36qns69r0j0g` (`codigo`),
   KEY `FKdu0aqr3nngh8cgkad48tkif5r` (`idFestival`),
@@ -314,4 +316,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-13  5:10:59
+-- Dump completed on 2026-09-15  3:41:37
