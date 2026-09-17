@@ -22,6 +22,9 @@ Este software permite gestionar los festivales temáticos de "Epicentro Gourmet"
 ## ✨ Test de Leal, Arian Gabriel
 - **src/test/Leal_TestTraerEmpleadoMasAntiguo.java**
     Este test traerá al empleado más antiguo de una unidad de venta.
+## ✨ Test de Boullon, Juan Bautista
+- **src/test/Boullon_TestTraerCocineroMasJovenPorCategoria.java**
+    Este test traerá al cocinero mas joven del festival dado una categoría determinada.
 ## ✨ Test de Ledesma Miño, Alejandro Javier
 - **src/test/Ledesma_TestTraerUnidadVentaQueMasRecaudo.java**
     Este tres traerá a la unidad de venta que más recaudó en un festival.

@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import datos.Empleado;
 import datos.Festival;
 import datos.UnidadVenta;
 
@@ -128,6 +129,29 @@ public class FestivalDao {
 		} finally {
 			session.close();
 		}
+	}
+	
+	public Empleado traerCocineroMasJovenPorCategoria(Festival festival, long categoria) throws HibernateException {
+		Empleado empleado = null;
+		
+		try {
+			iniciaOperacion();
+			empleado = (Empleado) session.createQuery(
+					"select e from Festival f "
+					+ "join f.unidades u "
+					+ "join u.staff e "
+					+ "join Cocinero c on c.idEmpleado = e.idEmpleado "
+					+ "where f.idFestival = :idFestival "
+					+ "and c.categoria = :categoria "
+					+ "order by e.fechNacimiento desc")
+					.setParameter("idFestival", festival.getIdFestival())
+					.setParameter("categoria", categoria)
+					.setMaxResults(1).uniqueResult();
+		} finally {
+			session.close();
+		}
+		
+		return empleado;
 	}
 	
 }
