@@ -19,16 +19,16 @@ Este software permite gestionar los festivales temáticos de "Epicentro Gourmet"
 ## 📑 Diagrama
 ![Diagrama](diagrama.png)
 
-## ✨ Test de Leal, Arian Gabriel**
+## ✨ Test de Leal, Arian Gabriel
 - **src/test/Leal_TestTraerEmpleadoMasAntiguo.java**
     Este test traerá al empleado más antiguo de una unidad de venta.
-## ✨ Test de Ledesma Miño, Alejandro Javier**
+## ✨ Test de Ledesma Miño, Alejandro Javier
 - **src/test/Ledesma_TestTraerUnidadVentaQueMasRecaudo.java**
     Este tres traerá a la unidad de venta que más recaudó en un festival.
 - **src/test/Ledesma_TraerPlatoMasRentableDeUnidadVenta.java**
     Este test traerá al plato que más resultó rentable de una unidad de venta.
     rentabilidad = (precio de venta - costo de producción) * unidades vendidas
-## ✨ Test de Vogt, Thomas Gebhard**
+## ✨ Test de Vogt, Thomas Gebhard
 - **src/test/Vogt_TraerPlatoEstrellaPorRecaudacion.java**
     Este test traerá al plato que más dinero recaudó entre una fecha inicial y una fecha final de una unidad de venta.
 - **src/test/Vogt_TraerPlatoEstrellaUnidadDeVenta.java**
