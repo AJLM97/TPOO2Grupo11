@@ -13,7 +13,7 @@ public class Vogt_TraerPlatoEstrellaUnidadDeVenta {
 
 		try {
 			UnidadVenta unidadVenta = unidadABM.traer(2L);
-			Plato platoEstrella = unidadABM.platoEstrellaDeUnidadVenta(unidadVenta);
+			Plato platoEstrella = unidadABM.traerPlatoEstrella(unidadVenta);
 			System.out.println("Plato estrella: " + platoEstrella.getNombre());
 		} catch (Exception e) {
 			e.printStackTrace();

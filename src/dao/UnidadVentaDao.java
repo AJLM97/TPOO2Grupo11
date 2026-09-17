@@ -178,26 +178,9 @@ public class UnidadVentaDao {
 		return objeto;
 	}
 
-	public Plato platoEstrellaDeUnidadVenta(long idUnidadVenta) throws Exception {
-		Plato plato = null;
-		try {
-			iniciaOperacion();
-			plato = session.createQuery(
-					"select i.plato from ItemPedido i "
-					+ "join i.pedido p "
-					+ "where p.unidad.idUnidadVenta = :idUnidadVenta "
-					+ "group by i.plato "
-					+ "order by sum(i.cantidad) desc, i.plato.idPlato asc",
-					Plato.class)
-					.setParameter("idUnidadVenta", idUnidadVenta)
-					.setMaxResults(1)
-					.uniqueResult();
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return plato;
+	public Plato traerPlatoEstrella(long idUnidadVenta) throws Exception {
+		return traerPlatoEstrella("p.unidad.idUnidadVenta = :idUnidadVenta",
+				query -> query.setParameter("idUnidadVenta", idUnidadVenta));
 	}
 
 	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
