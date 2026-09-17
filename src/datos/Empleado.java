@@ -1,6 +1,7 @@
 package datos;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public abstract class Empleado {
 	protected long idEmpleado;
@@ -88,6 +89,23 @@ public abstract class Empleado {
 
 	public void setUnidad(UnidadVenta unidad) {
 		this.unidad = unidad;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(dni);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Empleado)) { //instanceof considera las subclases de Empleado
+			return false;
+		}
+		Empleado other = (Empleado) obj;
+		return dni == other.dni;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import dao.FestivalDao;
+import datos.Empleado;
 import datos.Festival;
 import datos.UnidadVenta;
 
@@ -64,6 +65,10 @@ public class FestivalABM {
 
 	public UnidadVenta traerUnidadVentaQueMasRecaudo(Festival festival) {
 		return dao.traerUnidadVentaQueMasRecaudo(festival);
+	}
+	
+	public Empleado traerCocineroMasJovenPorCategoria(Festival festival, long categoria) {
+		return dao.traerCocineroMasJovenPorCategoria(festival, categoria);
 	}
 	
 }

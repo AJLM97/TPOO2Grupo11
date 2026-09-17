@@ -1,6 +1,7 @@
 package negocio;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import dao.EmpleadoDao;
@@ -29,6 +30,9 @@ public class EmpleadoABM {
         if(dao.existeEmpleadoEnUnidadVenta(dni, unidad)) {
 			throw new Exception("Ya existe un Empleado con DNI " + dni + " en la unidad de venta " + unidad.getNombreComercial());
 		}
+        if(Period.between(fechNacimiento, LocalDate.now()).getYears() < 18) {
+        	throw new Exception("El Empleado debe ser mayor de edad (18 años o mayor)");
+        }
         Cajero aux = new Cajero(nombre, apellido, dni, fechNacimiento, fechaIngreso,
                 sueldoBase, unidad, turnoTrabajo, plusAntiguedad);
         return dao.agregar(aux);
@@ -41,6 +45,12 @@ public class EmpleadoABM {
         if(dao.existeEmpleadoEnUnidadVenta(dni, unidad)) {
 			throw new Exception("Ya existe un Empleado con DNI " + dni + " en la unidad de venta " + unidad.getNombreComercial());
 		}
+        if(Period.between(fechNacimiento, LocalDate.now()).getYears() < 18) {
+        	throw new Exception("El Empleado debe ser mayor de edad (18 años o mayor)");
+        }
+        if((categoria < 1) || (categoria > 3)) {
+        	throw new Exception("La categoria del cocinero debe ser un valor entre 1 y 3 inclusive");
+        }
         Cocinero aux = new Cocinero(nombre, apellido, dni, fechNacimiento, fechaIngreso,
                 sueldoBase, unidad, categoria, especialidad, porcentaje);
         return dao.agregar(aux);
