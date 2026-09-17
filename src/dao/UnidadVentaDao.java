@@ -179,49 +179,32 @@ public class UnidadVentaDao {
 	}
 
 	public Plato traerPlatoEstrella(long idUnidadVenta) throws Exception {
-		return traerPlatoEstrella("p.unidad.idUnidadVenta = :idUnidadVenta",
-				query -> query.setParameter("idUnidadVenta", idUnidadVenta));
-	}
-
-	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		return traerPlatoEstrella("p.unidad.idUnidadVenta = :idUnidadVenta "
-				+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta",
-				query -> query.setParameter("idUnidadVenta", idUnidadVenta)
-						.setParameter("fechaDesde", fechaDesde)
-						.setParameter("fechaHasta", fechaHasta));
-	}
-
-	private Plato traerPlatoEstrella(String filtro, java.util.function.UnaryOperator<org.hibernate.query.Query<Plato>> parametros) throws Exception {
+		Plato plato = null;
 		try {
 			iniciaOperacion();
-			org.hibernate.query.Query<Plato> query = session.createQuery(
-					"select i.plato from ItemPedido i join i.pedido p where " + filtro
-					+ " group by i.plato order by sum(i.cantidad) desc, i.plato.idPlato asc",
-					Plato.class);
-			return parametros.apply(query).setMaxResults(1).uniqueResult();
+			plato = (Plato) session.createQuery(
+					"select i.plato from ItemPedido i join i.pedido p "
+					+ "where p.unidad.idUnidadVenta = :idUnidadVenta "
+					+ "group by i.plato order by sum(i.cantidad) desc, i.plato.idPlato asc")
+					.setParameter("idUnidadVenta", idUnidadVenta)
+					.setMaxResults(1).uniqueResult();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
+		return plato;
 	}
 
-	public Plato traerPlatoEstrellaPorRecaudacion(long idUnidadVenta,
-			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
-		return traerPlatoEstrellaPorImporte(idUnidadVenta, fechaDesde, fechaHasta,
-				"sum(i.cantidad * i.plato.precioVenta)");
-	}
-
-	private Plato traerPlatoEstrellaPorImporte(long idUnidadVenta, LocalDateTime fechaDesde,
-			LocalDateTime fechaHasta, String expresion) throws Exception {
+	public Plato traerPlatoEstrella(long idUnidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
+		Plato plato = null;
 		try {
 			iniciaOperacion();
-			return session.createQuery(
+			plato = (Plato) session.createQuery(
 					"select i.plato from ItemPedido i join i.pedido p "
 					+ "where p.unidad.idUnidadVenta = :idUnidadVenta "
 					+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta "
-					+ "group by i.plato order by " + expresion + " desc, i.plato.idPlato asc",
-					Plato.class)
+					+ "group by i.plato order by sum(i.cantidad) desc, i.plato.idPlato asc")
 					.setParameter("idUnidadVenta", idUnidadVenta)
 					.setParameter("fechaDesde", fechaDesde)
 					.setParameter("fechaHasta", fechaHasta)
@@ -231,6 +214,29 @@ public class UnidadVentaDao {
 				session.close();
 			}
 		}
+		return plato;
+	}
+
+	public Plato traerPlatoEstrellaPorRecaudacion(long idUnidadVenta,
+			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
+		Plato plato = null;
+		try {
+			iniciaOperacion();
+			plato = (Plato) session.createQuery(
+					"select i.plato from ItemPedido i join i.pedido p "
+					+ "where p.unidad.idUnidadVenta = :idUnidadVenta "
+					+ "and p.fechaTransaccion between :fechaDesde and :fechaHasta "
+					+ "group by i.plato order by sum(i.cantidad * i.plato.precioVenta) desc, i.plato.idPlato asc")
+					.setParameter("idUnidadVenta", idUnidadVenta)
+					.setParameter("fechaDesde", fechaDesde)
+					.setParameter("fechaHasta", fechaHasta)
+					.setMaxResults(1).uniqueResult();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return plato;
 	}
 	
 	public UnidadVenta traerUnidadVentaConResponsable(long idUnidadVenta) throws HibernateException{
