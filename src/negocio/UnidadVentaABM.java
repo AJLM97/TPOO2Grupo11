@@ -89,7 +89,7 @@ public class UnidadVentaABM {
 
 	public Plato traerPlatoEstrella(UnidadVenta unidadVenta, LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		if (unidadVenta == null) {
-			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+			throw new Exception("La unidad de venta no puede ser null");
 		}
 		Plato plato = dao.traerPlatoEstrella(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
 		if (plato == null) {
@@ -101,7 +101,7 @@ public class UnidadVentaABM {
 	public Plato traerPlatoEstrellaPorRecaudacion(UnidadVenta unidadVenta,
 			LocalDateTime fechaDesde, LocalDateTime fechaHasta) throws Exception {
 		if (unidadVenta == null) {
-			throw new IllegalArgumentException("La unidad de venta no puede ser null");
+			throw new Exception("La unidad de venta no puede ser null");
 		}
 		Plato plato = dao.traerPlatoEstrellaPorRecaudacion(unidadVenta.getIdUnidadVenta(), fechaDesde, fechaHasta);
 		if (plato == null) {
