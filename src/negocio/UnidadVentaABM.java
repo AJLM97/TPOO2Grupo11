@@ -76,11 +76,11 @@ public class UnidadVentaABM {
 		dao.actualizar(unidadVenta);
 	}
 
-	public Plato platoEstrellaDeUnidadVenta(UnidadVenta unidadVenta) throws Exception {
+	public Plato traerPlatoEstrella(UnidadVenta unidadVenta) throws Exception {
 		if (unidadVenta == null) {
 			throw new IllegalArgumentException("La unidad de venta no puede ser null");
 		}
-		Plato plato = dao.platoEstrellaDeUnidadVenta(unidadVenta.getIdUnidadVenta());
+		Plato plato = dao.traerPlatoEstrella(unidadVenta.getIdUnidadVenta());
 		if (plato == null) {
 			throw new Exception("La unidad de venta no tiene un plato estrella");
 		}
