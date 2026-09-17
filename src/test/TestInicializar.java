@@ -440,7 +440,7 @@ public class TestInicializar {
             pedido = peABM.traer(idPedido);
             peABM.agregarItemPedido(pedido, platoI, 2);
             peABM.agregarItemPedido(pedido, platoJ, 1);
-            peABM.agregarItemPedido(pedido, platoM, 4);
+            peABM.agregarItemPedido(pedido, platoB, 4);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 19, 14, 20), unidadVentaA);
@@ -458,33 +458,33 @@ public class TestInicializar {
         try {
             long idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 15, 13, 00), unidadVentaB);
             Pedido pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoG, 2);
+            peABM.agregarItemPedido(pedido, platoM, 2);
             peABM.agregarItemPedido(pedido, platoL, 1);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 17, 10, 30), unidadVentaB);
             pedido = peABM.traer(idPedido);
             peABM.agregarItemPedido(pedido, platoN, 3);
-            peABM.agregarItemPedido(pedido, platoQ, 2);
+            peABM.agregarItemPedido(pedido, platoP, 2);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 18, 19, 40), unidadVentaB);
             pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoR, 1);
-            peABM.agregarItemPedido(pedido, platoG, 4);
+            peABM.agregarItemPedido(pedido, platoO, 1);
+            peABM.agregarItemPedido(pedido, platoM, 4);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 19, 12, 50), unidadVentaB);
             pedido = peABM.traer(idPedido);
             peABM.agregarItemPedido(pedido, platoL, 2);
-            peABM.agregarItemPedido(pedido, platoN, 1);
-            peABM.agregarItemPedido(pedido, platoQ, 3);
+            peABM.agregarItemPedido(pedido, platoM, 1);
+            peABM.agregarItemPedido(pedido, platoO, 3);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 21, 15, 20), unidadVentaB);
             pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoG, 3);
-            peABM.agregarItemPedido(pedido, platoR, 2);
+            peABM.agregarItemPedido(pedido, platoM, 3);
+            peABM.agregarItemPedido(pedido, platoP, 2);
             peABM.cerrarPedido(pedido);
 
         } catch (Exception e) {
@@ -495,8 +495,8 @@ public class TestInicializar {
         try {
             long idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 15, 18, 15), unidadVentaC);
             Pedido pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoO, 2);
-            peABM.agregarItemPedido(pedido, platoP, 3);
+            peABM.agregarItemPedido(pedido, platoQ, 2);
+            peABM.agregarItemPedido(pedido, platoR, 3);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 17, 13, 45), unidadVentaC);
@@ -507,20 +507,20 @@ public class TestInicializar {
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 18, 13, 35), unidadVentaC);
             pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoO, 3);
+            peABM.agregarItemPedido(pedido, platoQ, 3);
             peABM.agregarItemPedido(pedido, platoS, 1);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 19, 17, 55), unidadVentaC);
             pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoP, 2);
+            peABM.agregarItemPedido(pedido, platoQ, 2);
             peABM.agregarItemPedido(pedido, platoT, 4);
             peABM.cerrarPedido(pedido);
 
             idPedido = peABM.agregar(LocalDateTime.of(2026, 12, 21, 20, 10), unidadVentaC);
             pedido = peABM.traer(idPedido);
-            peABM.agregarItemPedido(pedido, platoO, 1);
-            peABM.agregarItemPedido(pedido, platoP, 1);
+            peABM.agregarItemPedido(pedido, platoQ, 1);
+            peABM.agregarItemPedido(pedido, platoR, 1);
             peABM.agregarItemPedido(pedido, platoS, 2);
             peABM.agregarItemPedido(pedido, platoT, 1);
             peABM.cerrarPedido(pedido);
